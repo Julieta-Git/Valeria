@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Página no encontrada" description="La página que buscás no existe.">
+  <section class="container nf stack">
+    <p class="eyebrow">Error 404</p>
+    <h1>Esta página <span class="script">no existe</span></h1>
+    <p class="lead">Puede que el enlace haya cambiado. Probá desde acá:</p>
+    <div class="ctas">
+      <a href="/servicios" class="btn btn--ghost">Ver servicios</a>
+      <a href="/reservar" class="btn btn--primary">Reservar turno</a>
+    </div>
+  </section>
+</Base>
+<style>
+  .nf { padding-block: var(--section); gap: var(--s5); align-items: flex-start; }
+  .ctas { display: flex; flex-wrap: wrap; gap: var(--s3); }
+</style>

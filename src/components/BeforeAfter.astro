@@ -1,0 +1,19 @@
+---
+import Placeholder from './Placeholder.astro';
+interface Props { descripcion: string; servicio?: string | null; ratio?: string }
+const { descripcion, servicio, ratio = '4 / 5' } = Astro.props;
+---
+<figure class="ba-fig">
+  <div class="ba">
+    <Placeholder label="Antes" ratio={ratio} />
+    <Placeholder label="Después" ratio={ratio} />
+    <span class="ba__label ba__label--before">Antes</span>
+    <span class="ba__label ba__label--after">Después</span>
+  </div>
+  <figcaption class="small muted">
+    {descripcion}{servicio && <> · <a href={`/servicios/${servicio}`}>ver servicio</a></>}
+  </figcaption>
+</figure>
+<style>
+  .ba-fig { margin: 0; display: flex; flex-direction: column; gap: var(--s2); }
+</style>

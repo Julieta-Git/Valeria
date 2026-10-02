@@ -1,0 +1,240 @@
+/* ==========================================================================
+   Valeria Salón de Belleza — estilos globales
+   Tokens primero: cambiar un color o un tamaño acá lo cambia en toda la web.
+   ========================================================================== */
+
+:root {
+  /* Color (fondo negro, pedido de Valeria) */
+  --bg: #0d0b0c;
+  --surface: #161214;
+  --surface-2: #1f1a1c;
+  --line: #2e282b;
+  --text: #f4efec;
+  --text-soft: #b8aea9; /* 9:1 sobre --bg */
+  --accent: #c2185b; /* fondo de botones: texto blanco 5,9:1 */
+  --accent-hover: #d81b6a;
+  --accent-text: #f25c9a; /* fucsia para texto sobre negro: 6,3:1 */
+  --accent-tint: rgba(242, 92, 154, 0.12);
+  --success: #6fcf97;
+  --error: #ff8a80;
+  --placeholder: #221d1f;
+
+  /* Tipografía */
+  --font-display: 'Fraunces Variable', Georgia, serif;
+  --font-body: 'DM Sans Variable', system-ui, sans-serif;
+  --font-script: 'Parisienne', 'Brush Script MT', cursive;
+
+  --fs-display: clamp(2.6rem, 1.6rem + 4.6vw, 5rem);
+  --fs-h1: clamp(2.2rem, 1.5rem + 3vw, 3.6rem);
+  --fs-h2: clamp(1.8rem, 1.3rem + 2vw, 2.75rem);
+  --fs-h3: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  --fs-body: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --fs-small: 0.875rem;
+  --fs-label: 0.8125rem;
+
+  /* Espaciado (escala de 4 px) */
+  --s1: 0.25rem; --s2: 0.5rem; --s3: 0.75rem; --s4: 1rem; --s5: 1.5rem;
+  --s6: 2rem; --s7: 3rem; --s8: 4rem; --s9: 6rem; --s10: 8rem;
+  --section: clamp(4rem, 2.5rem + 6vw, 8rem);
+  --gutter: clamp(1.25rem, 0.8rem + 2vw, 2rem);
+  --container: 75rem;
+
+  --radius-s: 4px;
+  --radius-m: 8px;
+  --radius-pill: 999px;
+  --shadow: 0 -8px 24px rgba(0, 0, 0, 0.45);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* --- Base --------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+[hidden] { display: none !important; }
+img, svg { display: block; max-width: 100%; height: auto; }
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); line-height: 1.25; }
+p { margin: 0; text-wrap: pretty; }
+a { color: var(--text); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { color: var(--accent-text); }
+:focus-visible {
+  outline: 3px solid var(--accent-text);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+::selection { background: var(--accent); color: #fff; }
+
+.skip-link {
+  position: absolute; left: var(--s4); top: -100px; z-index: 100;
+  background: var(--text); color: var(--bg); padding: var(--s3) var(--s4);
+  border-radius: var(--radius-s); font-weight: 600;
+}
+.skip-link:focus { top: var(--s4); }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* --- Layout -------------------------------------------------------------- */
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: var(--section); }
+.section--surface { background: var(--surface); }
+.stack { display: flex; flex-direction: column; gap: var(--s4); }
+.section-head {
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+  gap: var(--s4) var(--s6); margin-bottom: var(--s7);
+}
+.section-head p { color: var(--text-soft); max-width: 36em; margin-top: var(--s3); }
+.grid {
+  display: grid; gap: var(--s6) var(--s5);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+.grid--3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+
+/* --- Tipografía de acento ----------------------------------------------- */
+.eyebrow {
+  font-size: var(--fs-label); letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-soft); font-weight: 500;
+}
+.script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--accent-text);
+  letter-spacing: 0;
+  line-height: 1;
+  font-size: 1.25em;
+  margin-left: 0.12em;
+}
+.lead { font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem); color: var(--text-soft); max-width: 34em; }
+.muted { color: var(--text-soft); }
+.small { font-size: var(--fs-small); }
+
+/* --- Botones ------------------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s2);
+  min-height: 3.25rem; padding: 0 var(--s6);
+  border-radius: var(--radius-pill); border: 1px solid transparent;
+  font: inherit; font-weight: 600; font-size: 1rem; line-height: 1.2;
+  text-decoration: none; cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.btn--primary { background: var(--accent); color: #fff; }
+.btn--primary:hover { background: var(--accent-hover); color: #fff; }
+.btn--ghost { border-color: var(--text); color: var(--text); background: transparent; font-weight: 500; }
+.btn--ghost:hover { background: var(--text); color: var(--bg); }
+.btn--block { width: 100%; }
+.btn--small { min-height: 2.75rem; padding: 0 var(--s5); font-size: 0.9375rem; }
+.btn[disabled] { opacity: 1; background: var(--surface-2); color: var(--text-soft); cursor: not-allowed; }
+.link-arrow { font-weight: 600; text-decoration: underline; }
+.link-arrow::after { content: ' →'; }
+
+/* --- Chips / filtros ------------------------------------------------------- */
+.chips { display: flex; gap: var(--s2); flex-wrap: wrap; }
+.chip {
+  display: inline-flex; align-items: center; gap: var(--s1);
+  min-height: 2.75rem; padding: 0 var(--s4);
+  border: 1px solid var(--line); border-radius: var(--radius-s);
+  background: transparent; color: var(--text); font: inherit; font-size: 0.9375rem;
+  text-decoration: none; cursor: pointer;
+}
+.chip:hover { border-color: var(--text-soft); color: var(--text); }
+.chip[aria-pressed='true'], .chip[aria-current] {
+  border-color: var(--accent-text); background: var(--accent-tint); font-weight: 600;
+}
+.chip[aria-pressed='true']::before, .chip[aria-current]::before { content: '✓'; }
+@media (max-width: 40rem) {
+  .chips--scroll { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; }
+  .chips--scroll .chip { flex-shrink: 0; }
+}
+
+/* --- Placeholders de foto y datos pendientes ---------------------------- */
+.ph {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 14px, rgba(255, 255, 255, 0.025) 14px 15px),
+    var(--placeholder);
+  color: var(--text-soft); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: var(--s5); width: 100%; overflow: hidden;
+}
+.ph span { max-width: 22ch; }
+.pendiente {
+  display: inline; background: rgba(255, 196, 0, 0.1); color: #ffd666;
+  border: 1px dashed rgba(255, 214, 102, 0.6); border-radius: var(--radius-s);
+  padding: 0.05em 0.4em; font-size: 0.92em;
+}
+.pendientes-off .pendiente { display: none; }
+
+/* --- Tarjetas de servicio ------------------------------------------------ */
+.card { display: flex; flex-direction: column; gap: var(--s3); text-decoration: none; color: var(--text); }
+.card__media { overflow: hidden; }
+.card__media > * { transition: transform 0.5s var(--ease); }
+.card:hover .card__media > * { transform: scale(1.03); }
+.card__title { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.2; margin-top: var(--s2); }
+.card:hover .card__title { text-decoration: underline; text-decoration-color: var(--accent-text); text-underline-offset: 0.18em; }
+.card__meta { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s4); font-size: var(--fs-small); color: var(--text-soft); }
+.card__desc { color: var(--text-soft); font-size: 0.9375rem; }
+.tag { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-text); }
+
+/* --- Formularios ------------------------------------------------------- */
+.field { display: flex; flex-direction: column; gap: var(--s2); }
+.field label, .field legend { font-weight: 600; font-size: 0.9375rem; padding: 0; }
+.field .hint { font-size: var(--fs-small); color: var(--text-soft); }
+.input {
+  min-height: 3.25rem; width: 100%; padding: 0 var(--s4);
+  border: 1px solid #5c5357; border-radius: var(--radius-s);
+  background: var(--surface); color: var(--text); font: inherit; font-size: 1rem;
+  color-scheme: dark;
+}
+textarea.input { padding: var(--s3) var(--s4); min-height: 6rem; resize: vertical; }
+.input:hover { border-color: var(--text-soft); }
+.input[aria-invalid='true'] { border-color: var(--error); }
+.error { color: var(--error); font-size: var(--fs-small); }
+.error::before { content: '⚠ '; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+
+/* --- Antes / Después ----------------------------------------------------- */
+.ba { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; position: relative; }
+.ba__label {
+  position: absolute; top: var(--s3); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 0.2rem 0.6rem; background: var(--bg); color: var(--text);
+}
+.ba__label--after { left: calc(50% + var(--s3)); background: var(--text); color: var(--bg); }
+.ba__label--before { left: var(--s3); }
+
+/* --- Contenido largo (markdown) --------------------------------------- */
+.prose { max-width: 42rem; }
+.prose > * + * { margin-top: var(--s4); }
+.prose h2 { font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem); margin-top: var(--s7); }
+.prose ul { padding-left: 1.2em; }
+.prose li + li { margin-top: var(--s2); }
+.prose strong { color: var(--text); }
+.prose p, .prose li { color: #d9d1cd; }
+
+/* --- Revelado suave al hacer scroll ------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+  .js .reveal.is-visible { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

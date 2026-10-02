@@ -1,0 +1,35 @@
+{
+  "_ayuda": "Guía '¿Qué tratamiento necesito?'. Cada opción suma puntos a servicios (por slug). Se recomiendan los 2 con más puntos. Reglas a validar con Valeria.",
+  "preguntas": [
+    {
+      "id": "objetivo",
+      "texto": "¿Qué te gustaría lograr?",
+      "opciones": [
+        { "texto": "Cambiar o renovar el color", "suma": { "color": 2, "balayage": 2, "color-fantasia": 2, "reflejos": 1 } },
+        { "texto": "Un color llamativo, distinto", "suma": { "color-fantasia": 4 } },
+        { "texto": "Tener el pelo más lacio y fácil de peinar", "suma": { "alisado": 3, "botox-capilar": 1 } },
+        { "texto": "Recuperar suavidad y brillo", "suma": { "nutricion": 2, "hidratacion": 2, "botox-capilar": 1, "shock-de-keratina": 1 } },
+        { "texto": "Cambiar la forma o sanear las puntas", "suma": { "corte": 4 } }
+      ]
+    },
+    {
+      "id": "estado",
+      "texto": "¿Cómo sentís tu cabello hoy?",
+      "opciones": [
+        { "texto": "Seco o áspero", "suma": { "nutricion": 3 } },
+        { "texto": "Opaco o con frizz", "suma": { "hidratacion": 2, "botox-capilar": 2 } },
+        { "texto": "Débil o quebradizo", "suma": { "shock-de-keratina": 3, "corte": 1 } },
+        { "texto": "Bien, sin problemas", "suma": {} }
+      ]
+    },
+    {
+      "id": "quimicos",
+      "texto": "¿Te hiciste color, decoloración o alisado en los últimos meses?",
+      "opciones": [
+        { "texto": "Sí", "suma": { "nutricion": 2 } },
+        { "texto": "No", "suma": {} },
+        { "texto": "No me acuerdo", "suma": { "nutricion": 1 } }
+      ]
+    }
+  ]
+}

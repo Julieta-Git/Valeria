@@ -1,0 +1,18 @@
+{
+  "_ayuda": "Cada ítem es un trabajo. Cuando haya fotos reales: poner el archivo en src/assets/galeria/ y su nombre en 'foto' (y 'antes' si es antes/después). 'autorizada' debe ser true para fotos de clientas.",
+  "categorias": ["Color fantasía", "Color", "Balayage", "Reflejos", "Alisados", "Tratamientos", "Corte", "Peinados", "Maquillaje", "Cejas", "Pestañas", "El salón"],
+  "items": [
+    { "categoria": "Color fantasía", "servicio": "color-fantasia", "tipo": "antes-despues", "descripcion": "Color fantasía, antes y después", "foto": null, "antes": null, "autorizada": false },
+    { "categoria": "Color fantasía", "servicio": "color-fantasia", "tipo": "resultado", "descripcion": "Color fantasía en tonos rosa", "foto": null, "autorizada": false },
+    { "categoria": "Balayage", "servicio": "balayage", "tipo": "resultado", "descripcion": "Balayage, vista de espalda", "foto": null, "autorizada": false },
+    { "categoria": "Color", "servicio": "color", "tipo": "resultado", "descripcion": "Coloración completa", "foto": null, "autorizada": false },
+    { "categoria": "Alisados", "servicio": "alisado", "tipo": "antes-despues", "descripcion": "Alisado, antes y después", "foto": null, "antes": null, "autorizada": false },
+    { "categoria": "Reflejos", "servicio": "reflejos", "tipo": "resultado", "descripcion": "Reflejos", "foto": null, "autorizada": false },
+    { "categoria": "Peinados", "servicio": "peinados", "tipo": "resultado", "descripcion": "Peinado de evento", "foto": null, "autorizada": false },
+    { "categoria": "Maquillaje", "servicio": "maquillaje", "tipo": "resultado", "descripcion": "Maquillaje social", "foto": null, "autorizada": false },
+    { "categoria": "Pestañas", "servicio": "extensiones-de-pestanas", "tipo": "resultado", "descripcion": "Extensiones de pestañas, volumen 2D", "foto": null, "autorizada": false },
+    { "categoria": "Cejas", "servicio": "perfilado-de-cejas", "tipo": "resultado", "descripcion": "Perfilado de cejas", "foto": null, "autorizada": false },
+    { "categoria": "Tratamientos", "servicio": "nutricion", "tipo": "resultado", "descripcion": "Cabello después de una nutrición", "foto": null, "autorizada": false },
+    { "categoria": "El salón", "servicio": null, "tipo": "salon", "descripcion": "Valeria trabajando en el salón", "foto": null, "autorizada": true }
+  ]
+}

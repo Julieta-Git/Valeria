@@ -1,0 +1,223 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+import { categorias, type Categoria } from '../lib/format';
+
+const servicios = (await getCollection('servicios')).sort((a, b) => a.data.orden - b.data.orden);
+const grupos = (Object.keys(categorias) as Categoria[]).map((c) => ({
+  nombre: categorias[c],
+  items: servicios.filter((s) => s.data.categoria === c),
+}));
+const numero = site.whatsapp.numero.replace(/\D/g, '');
+---
+<Base
+  title="Reservar turno"
+  description={`Pedí tu turno en ${site.nombre}: elegí servicio, día y horario y enviá la solicitud por WhatsApp.`}
+  bar={false}
+>
+  <section class="container booking">
+    <div class="booking__intro stack">
+      <p class="eyebrow">Turnos</p>
+      <h1>Pedí tu <span class="script">turno</span></h1>
+      <p class="lead">Completá estos datos y se arma el mensaje para enviarle a Valeria por WhatsApp. Ella te confirma el día y el horario.</p>
+      <ul class="booking__info muted small">
+        <li>{site.horarios.dias}: mañana {site.horarios.manana} y tarde {site.horarios.tarde}.</li>
+        <li>Pedí tu turno con al menos {site.anticipacionMinimaHoras} horas de anticipación.</li>
+        <li>{site.horarios.nota}</li>
+        <li>{site.domicilio}</li>
+      </ul>
+    </div>
+
+    <div class="booking__panel">
+      <!-- Paso 1: formulario -->
+      <form id="booking-form" class="stack form" novalidate data-numero={numero}>
+        <div class="field">
+          <label for="servicio">Servicio</label>
+          <select id="servicio" name="servicio" class="input" required>
+            {grupos.map((g) => (
+              <optgroup label={g.nombre}>
+                {g.items.map((s) => <option value={s.id}>{s.data.nombre}</option>)}
+              </optgroup>
+            ))}
+            <option value="asesoramiento">No sé, quiero asesoramiento</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fecha">Día preferido</label>
+          <input id="fecha" name="fecha" type="date" class="input" required aria-describedby="fecha-hint fecha-error fecha-domingo" />
+          <span id="fecha-hint" class="hint">Desde mañana en adelante.</span>
+          <span id="fecha-error" class="error" hidden>Elegí un día a partir de mañana.</span>
+          <span id="fecha-domingo" class="hint" hidden>Los domingos se atiende solo para eventos especiales: contalo en el comentario.</span>
+        </div>
+
+        <fieldset class="field">
+          <legend>Horario</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="horario" value="mañana" /> <span>Mañana<small>desde las 9 h</small></span></label>
+            <label class="choice"><input type="radio" name="horario" value="tarde" checked /> <span>Tarde<small>desde las 14 h</small></span></label>
+            <label class="choice"><input type="radio" name="horario" value="exacto" /> <span>Horario exacto<small>elegilo vos</small></span></label>
+          </div>
+          <div class="field" id="hora-field" hidden>
+            <label for="hora">¿A qué hora?</label>
+            <input id="hora" name="hora" type="time" class="input" min="09:00" step="900" aria-describedby="hora-error" />
+            <span id="hora-error" class="error" hidden>Indicá un horario.</span>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="nombre">Tu nombre</label>
+          <input id="nombre" name="nombre" type="text" class="input" autocomplete="given-name" required aria-describedby="nombre-error" />
+          <span id="nombre-error" class="error" hidden>Escribí tu nombre.</span>
+        </div>
+
+        <div class="field">
+          <label for="comentario">Comentario <span class="muted">(opcional)</span></label>
+          <textarea id="comentario" name="comentario" class="input" rows="3" placeholder="Ej.: pelo largo, tengo color previo"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--block">Revisar mensaje</button>
+        <p class="small muted center">Es una solicitud: el turno queda confirmado cuando Valeria te responde.</p>
+      </form>
+
+      <!-- Paso 2: revisión -->
+      <section id="booking-review" class="stack review" hidden aria-labelledby="review-title" tabindex="-1">
+        <h2 id="review-title">Vas a enviar este mensaje</h2>
+        <p class="muted">Se abre WhatsApp con el texto listo. Podés cambiarlo antes de enviarlo.</p>
+        <blockquote id="review-msg" class="bubble"></blockquote>
+        <a id="review-wa" class="btn btn--primary btn--block" target="_blank" rel="noopener" href="#">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19.1L4 20z" /></svg>
+          Enviar por WhatsApp
+        </a>
+        <div class="review__row">
+          <button type="button" id="review-edit" class="btn btn--ghost">Editar</button>
+          <button type="button" id="review-copy" class="btn btn--ghost">Copiar</button>
+        </div>
+        <p class="small muted" id="review-copied" role="status"></p>
+        <p class="small muted">¿No se abre WhatsApp? Escribile al {site.whatsapp.numeroVisible} y pegá el mensaje.</p>
+      </section>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .booking { display: grid; gap: var(--s7); padding-block: var(--s8) var(--section); }
+  .booking__intro { gap: var(--s5); }
+  .booking__info { padding-left: 1.1em; display: grid; gap: var(--s2); }
+  .booking__panel { background: var(--surface); border: 1px solid var(--line); padding: clamp(1.25rem, 0.8rem + 2vw, 2.5rem); }
+  @media (min-width: 60rem) {
+    .booking { grid-template-columns: 1fr 1.1fr; gap: var(--s9); align-items: start; }
+    .booking__intro { position: sticky; top: 7rem; }
+  }
+  .form { gap: var(--s5); }
+  .choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s2); }
+  .choice { position: relative; display: flex; cursor: pointer; }
+  .choice input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .choice span {
+    flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    min-height: 3.75rem; padding: var(--s2) var(--s3); border: 1px solid #5c5357; border-radius: var(--radius-s);
+    font-weight: 500; line-height: 1.2; font-size: 0.9375rem;
+  }
+  .choice small { font-weight: 400; color: var(--text-soft); font-size: 0.8125rem; }
+  .choice input:checked + span { border-color: var(--accent-text); background: var(--accent-tint); font-weight: 600; }
+  .choice input:checked + span::before { content: '✓ '; color: var(--accent-text); }
+  .choice input:focus-visible + span { outline: 3px solid var(--accent-text); outline-offset: 2px; }
+  @media (max-width: 26rem) { .choices { grid-template-columns: 1fr; } }
+  #hora-field { margin-top: var(--s4); }
+  .center { text-align: center; }
+
+  .review { gap: var(--s5); scroll-margin-top: 6rem; }
+  .review:focus { outline: none; }
+  .bubble { margin: 0; padding: var(--s4) var(--s5); background: #1d3a2a; color: #eaf6ee; border-radius: 14px 14px 14px 3px; line-height: 1.55; }
+  .review__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
+</style>
+
+<script>
+  const form = document.getElementById('booking-form') as HTMLFormElement;
+  const review = document.getElementById('booking-review') as HTMLElement;
+  const servicio = document.getElementById('servicio') as HTMLSelectElement;
+  const fecha = document.getElementById('fecha') as HTMLInputElement;
+  const hora = document.getElementById('hora') as HTMLInputElement;
+  const horaField = document.getElementById('hora-field') as HTMLElement;
+  const nombre = document.getElementById('nombre') as HTMLInputElement;
+  const comentario = document.getElementById('comentario') as HTMLTextAreaElement;
+  const domingoHint = document.getElementById('fecha-domingo') as HTMLElement;
+  const numero = form.dataset.numero ?? '';
+  const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+  // Servicio preseleccionado desde la ficha: /reservar?servicio=balayage
+  const pre = new URLSearchParams(location.search).get('servicio');
+  if (pre && [...servicio.options].some((o) => o.value === pre)) servicio.value = pre;
+
+  // Fecha mínima: mañana (anticipación de 24 h).
+  const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const manana = new Date();
+  manana.setDate(manana.getDate() + 1);
+  fecha.min = iso(manana);
+
+  const parseFecha = (v: string) => {
+    const [y, m, d] = v.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  };
+  const horario = () => (form.querySelector('input[name="horario"]:checked') as HTMLInputElement)?.value ?? 'tarde';
+
+  form.addEventListener('change', () => {
+    horaField.hidden = horario() !== 'exacto';
+    domingoHint.hidden = !(fecha.value && parseFecha(fecha.value).getDay() === 0);
+  });
+
+  function setError(input: HTMLElement, id: string, show: boolean) {
+    const el = document.getElementById(id);
+    if (el) el.hidden = !show;
+    input.setAttribute('aria-invalid', String(show));
+  }
+
+  function mensaje() {
+    const f = parseFecha(fecha.value);
+    const dia = `${dias[f.getDay()]} ${f.getDate()}/${f.getMonth() + 1}`;
+    const srv = servicio.value === 'asesoramiento' ? 'una consulta de asesoramiento' : servicio.selectedOptions[0].text;
+    const h = horario();
+    const cuando = h === 'exacto' ? `a las ${hora.value} h` : h === 'mañana' ? 'por la mañana' : 'por la tarde';
+    let msg = `Hola Valeria, soy ${nombre.value.trim()}. Quisiera un turno para ${srv} el ${dia} ${cuando}. ¿Tenés disponibilidad?`;
+    if (comentario.value.trim()) msg += ` Comentario: ${comentario.value.trim()}`;
+    return msg;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const sinNombre = !nombre.value.trim();
+    const sinFecha = !fecha.value || fecha.value < fecha.min;
+    const sinHora = horario() === 'exacto' && !hora.value;
+    setError(nombre, 'nombre-error', sinNombre);
+    setError(fecha, 'fecha-error', sinFecha);
+    setError(hora, 'hora-error', sinHora);
+    const primero = [sinFecha && fecha, sinHora && hora, sinNombre && nombre].find(Boolean) as HTMLElement | undefined;
+    if (primero) return primero.focus();
+
+    const msg = mensaje();
+    (document.getElementById('review-msg') as HTMLElement).textContent = msg;
+    (document.getElementById('review-wa') as HTMLAnchorElement).href = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
+    form.hidden = true;
+    review.hidden = false;
+    review.focus({ preventScroll: true });
+    const panel = review.parentElement as HTMLElement;
+    window.scrollTo({ top: panel.getBoundingClientRect().top + window.scrollY - 120 });
+  });
+
+  document.getElementById('review-edit')?.addEventListener('click', () => {
+    review.hidden = true;
+    form.hidden = false;
+    servicio.focus();
+  });
+
+  document.getElementById('review-copy')?.addEventListener('click', async () => {
+    const status = document.getElementById('review-copied') as HTMLElement;
+    try {
+      await navigator.clipboard.writeText(mensaje());
+      status.textContent = 'Mensaje copiado.';
+    } catch {
+      status.textContent = 'No se pudo copiar: seleccioná el texto y copialo a mano.';
+    }
+  });
+</script>

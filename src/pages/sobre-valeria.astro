@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import Placeholder from '../components/Placeholder.astro';
+import site from '../data/site.json';
+const v = site.valeria;
+---
+<Base title="Sobre Valeria" description={`Valeria es ${v.titulo.toLowerCase()} con ${v.experiencia} de experiencia, especializada en ${v.especialidad.toLowerCase()}.`}>
+  <section class="container about">
+    <Placeholder label="Retrato de Valeria (ella tiene una foto)" ratio="4 / 5" />
+    <div class="stack about__text">
+      <p class="eyebrow">Sobre Valeria</p>
+      <h1>Hola, soy <span class="script">Valeria</span></h1>
+      <p class="lead">Soy {v.titulo.toLowerCase()} y hace {v.experiencia} que trabajo con el color. Mi especialidad es el {v.especialidad.toLowerCase()}.</p>
+      <p>Cada clienta tiene su momento: reviso lo que querés hacerte, te oriento en el corte, el color o el look que mejor te queda, y te doy consejos para cuidarlo en casa. Siempre busco que tu pelo quede lindo y, sobre todo, sano.</p>
+      <dl class="facts">
+        <div><dt class="muted small">Experiencia</dt><dd>{v.experiencia}</dd></div>
+        <div><dt class="muted small">Formación</dt><dd>{v.titulo} <span class="pendiente">+ cursos a confirmar</span></dd></div>
+        <div><dt class="muted small">Especialidad</dt><dd>{v.especialidad}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <h2 class="mb">Cómo es un turno <span class="script">conmigo</span></h2>
+      <ol class="steps">
+        <li><h3>Te escucho</h3><p class="muted">Charlamos qué querés lograr y cómo está tu cabello hoy.</p></li>
+        <li><h3>Te oriento</h3><p class="muted">Te explico qué conviene hacer, cuánto lleva y qué resultado esperar.</p></li>
+        <li><h3>Trabajo con cuidado</h3><p class="muted">Priorizo la salud del pelo en cada paso del servicio.</p></li>
+        <li><h3>Te llevás los consejos</h3><p class="muted">Te digo cómo cuidarlo en casa para que el resultado dure.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="photos">
+      <Placeholder label="Valeria trabajando con color" />
+      <Placeholder label="El salón" />
+      <Placeholder label="Detalle de trabajo" />
+    </div>
+    <div class="cta">
+      <a href="/reservar" class="btn btn--primary">Reservar turno</a>
+      <a href="/servicios" class="btn btn--ghost">Ver servicios</a>
+    </div>
+  </section>
+</Base>
+<style>
+  .about { display: grid; gap: var(--s7); padding-block: var(--s8) var(--section); align-items: center; }
+  .about__text { gap: var(--s5); }
+  @media (min-width: 60rem) { .about { grid-template-columns: 0.9fr 1fr; gap: var(--s9); } }
+  .facts { display: grid; gap: var(--s4); margin: 0; border-top: 1px solid var(--line); padding-top: var(--s5); }
+  .facts dd { margin: var(--s1) 0 0; font-family: var(--font-display); font-size: 1.25rem; }
+  .mb { margin-bottom: var(--s7); }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); counter-reset: paso; }
+  .steps li { counter-increment: paso; border-top: 1px solid var(--text); padding-top: var(--s4); display: flex; flex-direction: column; gap: var(--s2); }
+  .steps li::before { content: '0' counter(paso); font-family: var(--font-display); color: var(--accent-text); }
+  .photos { display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+  .cta { display: flex; flex-wrap: wrap; gap: var(--s3); justify-content: center; margin-top: var(--s8); }
+</style>

@@ -1,0 +1,230 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import Placeholder from '../components/Placeholder.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
+import site from '../data/site.json';
+import galeria from '../data/galeria.json';
+import { enlaceReserva } from '../lib/whatsapp';
+
+const destacados = (await getCollection('servicios', (s) => s.data.destacado)).sort((a, b) => a.data.orden - b.data.orden);
+const consejos = (await getCollection('consejos')).sort((a, b) => +b.data.fecha - +a.data.fecha).slice(0, 3);
+const fotos = galeria.items.filter((g) => g.tipo !== 'antes-despues').slice(0, 6);
+const antesDespues = galeria.items.find((g) => g.tipo === 'antes-despues');
+const instagram = site.redes.find((r) => r.nombre === 'Instagram');
+
+const diferenciales = [
+  { titulo: 'Atención personalizada', texto: 'Cada turno es solo tuyo: Valeria escucha lo que querés y prioriza tu tiempo.' },
+  { titulo: 'Asesoramiento real', texto: 'Revisa tu pedido y te orienta en el corte, el color o el look que mejor te queda.' },
+  { titulo: 'La salud del cabello primero', texto: 'Cada servicio se piensa para que tu pelo quede lindo hoy y sano mañana.' },
+];
+---
+<Base
+  title={`${site.nombre} · Colorista y peluquería en ${site.ciudad}`}
+  description={`${site.descripcion} Pedí tu turno por WhatsApp.`}
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__text stack">
+        <p class="eyebrow">Colorista · Peluquería y belleza · {site.ciudad}</p>
+        <h1 class="hero__title">Tu color, <span class="script">tu estilo</span></h1>
+        <p class="lead">
+          Soy Valeria, colorista con {site.valeria.experiencia} de experiencia y especializada en color fantasía. Color, corte, alisados, tratamientos y belleza con atención personalizada.
+        </p>
+        <div class="hero__ctas">
+          <a href="/reservar" class="btn btn--primary">Reservar turno</a>
+          <a href="/servicios" class="btn btn--ghost">Ver servicios</a>
+        </div>
+        <p class="small muted">{site.horarios.dias} · Mañana {site.horarios.manana} · Tarde {site.horarios.tarde}</p>
+      </div>
+      <Placeholder label="Hero: color fantasía de alto impacto" ratio="4 / 5" class="hero__img" />
+    </div>
+  </section>
+
+  <!-- Servicios destacados -->
+  <section class="section section--surface" aria-labelledby="destacados">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Servicios</p>
+          <h2 id="destacados">Lo que más <span class="script">piden</span></h2>
+        </div>
+        <a href="/servicios" class="link-arrow">Ver todos los servicios</a>
+      </div>
+      <div class="grid">
+        {destacados.map((s) => <ServiceCard servicio={s} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Guía -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="guide-cta reveal">
+        <div class="stack">
+          <h2>¿No sabés qué tratamiento necesitás?</h2>
+          <p class="muted">Respondé 3 preguntas sobre tu cabello y te sugerimos por dónde empezar. Después lo charlás con Valeria.</p>
+        </div>
+        <a href="/que-tratamiento-necesito" class="btn btn--ghost">Hacer la guía</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resultados -->
+  <section class="section" aria-labelledby="resultados">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Galería</p>
+          <h2 id="resultados">Resultados <span class="script">reales</span></h2>
+          <p>Trabajos hechos en el salón. Las fotos se publican con autorización de cada clienta.</p>
+        </div>
+        <a href="/galeria" class="link-arrow">Ver galería completa</a>
+      </div>
+      <div class="results">
+        {antesDespues && <div class="results__ba reveal"><BeforeAfter descripcion={antesDespues.descripcion} servicio={antesDespues.servicio} /></div>}
+        {fotos.map((f) => <Placeholder label={f.descripcion} class="reveal" />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre Valeria -->
+  <section class="section section--surface" aria-labelledby="sobre">
+    <div class="container about">
+      <Placeholder label="Retrato de Valeria en el salón" ratio="4 / 5" />
+      <div class="stack about__text">
+        <p class="eyebrow">Sobre Valeria</p>
+        <h2 id="sobre">Colorista, <span class="script">apasionada por el color</span></h2>
+        <p class="lead">
+          Hace {site.valeria.experiencia} que trabajo con el color. Me especializo en {site.valeria.especialidad.toLowerCase()}, y en cada turno reviso lo que querés, te oriento y busco siempre la salud de tu pelo.
+        </p>
+        <dl class="about__facts">
+          <div><dt class="muted small">Experiencia</dt><dd>{site.valeria.experiencia}</dd></div>
+          <div><dt class="muted small">Formación</dt><dd>{site.valeria.titulo}</dd></div>
+          <div><dt class="muted small">Especialidad</dt><dd>Color fantasía</dd></div>
+        </dl>
+        <a href="/sobre-valeria" class="link-arrow">Conocé a Valeria</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diferenciales -->
+  <section class="section" aria-labelledby="por-que">
+    <div class="container">
+      <h2 id="por-que" class="section-title">Por qué <span class="script">Valeria</span></h2>
+      <div class="grid grid--3">
+        {diferenciales.map((d, i) => (
+          <div class="diff reveal">
+            <span class="diff__n">0{i + 1}</span>
+            <h3>{d.titulo}</h3>
+            <p class="muted">{d.texto}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Consejos -->
+  <section class="section section--surface" aria-labelledby="consejos">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Conocé tu cabello</p>
+          <h2 id="consejos">Consejos para cuidarlo entre turnos</h2>
+        </div>
+        <a href="/consejos" class="link-arrow">Ver todos los consejos</a>
+      </div>
+      <div class="grid grid--3">
+        {consejos.map((c) => (
+          <a href={`/consejos/${c.id}`} class="tip reveal">
+            <span class="tag">{c.data.tema}</span>
+            <h3>{c.data.titulo}</h3>
+            <span class="link-arrow small">Leer</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Instagram -->
+  <section class="section" aria-labelledby="instagram">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 id="instagram">Seguí los trabajos en <span class="script">Instagram</span></h2>
+          <p>{instagram?.usuario}</p>
+        </div>
+        <a href={instagram?.url || '#'} class="btn btn--ghost" target="_blank" rel="noopener">Ver perfil</a>
+      </div>
+      <div class="ig">
+        {[1, 2, 3, 4, 5, 6].map((n) => <Placeholder label={`Publicación ${n}`} ratio="1 / 1" />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="final-cta">
+    <div class="container stack final-cta__inner">
+      <h2>¿Lista para tu <span class="script">próximo cambio</span>?</h2>
+      <p class="lead">Elegí el servicio y el día, y Valeria te confirma por WhatsApp.</p>
+      <a href={enlaceReserva()} class="btn btn--primary">Reservar turno</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding-block: clamp(2.5rem, 1rem + 5vw, 6rem); }
+  .hero__grid { display: grid; gap: var(--s7); align-items: center; grid-template-columns: 1fr; }
+  .hero__text { gap: var(--s5); }
+  .hero__title { font-size: var(--fs-display); line-height: 1; }
+  .hero__title .script { display: block; font-size: 1.3em; margin: 0.05em 0 0; }
+  .hero__ctas { display: flex; flex-wrap: wrap; gap: var(--s3); }
+  @media (min-width: 60rem) {
+    .hero__grid { grid-template-columns: 1.05fr 1fr; gap: var(--s9); }
+  }
+  @media (max-width: 40rem) {
+    .hero { padding-top: 0; }
+    .hero__ctas .btn { flex: 1 1 100%; }
+    .hero__grid :global(.hero__img) { order: -1; margin-inline: calc(var(--gutter) * -1); width: calc(100% + var(--gutter) * 2); }
+  }
+
+  .section--tight { padding-block: var(--s8); }
+  .guide-cta {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s5);
+    border: 1px solid var(--line); padding: clamp(1.5rem, 1rem + 2vw, 3rem);
+    background: linear-gradient(var(--accent-tint), var(--accent-tint)), var(--bg);
+  }
+  .guide-cta h2 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem); }
+  .guide-cta .stack { max-width: 40rem; gap: var(--s3); }
+
+  .results { display: grid; gap: var(--s3); grid-template-columns: repeat(2, 1fr); }
+  .results__ba { grid-column: 1 / -1; }
+  @media (min-width: 60rem) {
+    .results { grid-template-columns: repeat(4, 1fr); }
+    .results__ba { grid-column: span 2; }
+  }
+
+  .about { display: grid; gap: var(--s7); align-items: center; }
+  .about__text { gap: var(--s5); }
+  .about__facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s4); margin: 0; border-top: 1px solid var(--line); padding-top: var(--s5); }
+  .about__facts dd { margin: var(--s1) 0 0; font-family: var(--font-display); font-size: 1.375rem; line-height: 1.2; }
+  @media (min-width: 60rem) { .about { grid-template-columns: 0.9fr 1fr; gap: var(--s9); } }
+
+  .section-title { margin-bottom: var(--s7); }
+  .diff { border-top: 1px solid var(--text); padding-top: var(--s5); display: flex; flex-direction: column; gap: var(--s3); }
+  .diff__n { font-family: var(--font-display); color: var(--accent-text); }
+
+  .tip { display: flex; flex-direction: column; gap: var(--s3); padding: var(--s6); border: 1px solid var(--line); background: var(--bg); text-decoration: none; color: var(--text); transition: border-color 0.2s var(--ease); }
+  .tip:hover { border-color: var(--accent-text); color: var(--text); }
+  .tip h3 { flex: 1; }
+
+  .ig { display: grid; gap: var(--s2); grid-template-columns: repeat(3, 1fr); }
+  @media (min-width: 60rem) { .ig { grid-template-columns: repeat(6, 1fr); } }
+
+  .final-cta { padding-block: var(--section); border-top: 1px solid var(--line); text-align: center; background: radial-gradient(ellipse at 50% 120%, rgba(194, 24, 91, 0.22), transparent 60%), var(--bg); }
+  .final-cta__inner { align-items: center; gap: var(--s5); }
+  .final-cta h2 { font-size: var(--fs-h1); }
+  .final-cta .lead { margin-inline: auto; }
+</style>

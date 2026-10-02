@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import guia from '../data/guia.json';
+import { precioDesde } from '../lib/format';
+
+const servicios = await getCollection('servicios');
+const info = Object.fromEntries(
+  servicios.map((s) => [s.id, { nombre: s.data.nombre, resumen: s.data.resumen, precio: precioDesde(s.data.precioDesde) }]),
+);
+---
+<Base title="¿Qué tratamiento necesito?" description="Respondé 3 preguntas sobre tu cabello y descubrí qué servicio te conviene. Después lo charlás con Valeria.">
+  <section class="container guide">
+    <div class="stack guide__intro">
+      <p class="eyebrow">Guía</p>
+      <h1>¿Qué tratamiento <span class="script">necesito?</span></h1>
+      <p class="lead">Tres preguntas rápidas para orientarte. Es una sugerencia: en el turno, Valeria mira tu cabello y te recomienda lo mejor.</p>
+    </div>
+
+    <form id="guia" class="stack guide__form" data-info={JSON.stringify(info)} data-preguntas={JSON.stringify(guia.preguntas)}>
+      {guia.preguntas.map((p, i) => (
+        <fieldset class="q">
+          <legend><span class="q__n">{i + 1}/{guia.preguntas.length}</span> {p.texto}</legend>
+          <div class="q__opts">
+            {p.opciones.map((o, j) => (
+              <label class="opt">
+                <input type="radio" name={p.id} value={j} required />
+                <span>{o.texto}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      ))}
+      <p id="guia-error" class="error" hidden>Respondé las tres preguntas.</p>
+      <button type="submit" class="btn btn--primary">Ver mi sugerencia</button>
+    </form>
+
+    <section id="resultado" class="result stack" hidden tabindex="-1" aria-labelledby="res-title">
+      <h2 id="res-title">Te sugerimos <span class="script">empezar por</span></h2>
+      <div id="res-list" class="result__list"></div>
+      <p class="muted small">Esta guía no reemplaza el diagnóstico en el salón.</p>
+      <button type="button" id="res-again" class="btn btn--ghost">Volver a empezar</button>
+    </section>
+  </section>
+</Base>
+
+<style>
+  .guide { max-width: 48rem; padding-block: var(--s8) var(--section); display: flex; flex-direction: column; gap: var(--s7); }
+  .guide__intro { gap: var(--s4); }
+  .guide__form { gap: var(--s7); }
+  .q legend { font-family: var(--font-display); font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem); line-height: 1.2; margin-bottom: var(--s4); }
+  .q__n { font-family: var(--font-body); font-size: var(--fs-small); color: var(--accent-text); vertical-align: middle; margin-right: var(--s2); }
+  .q__opts { display: grid; gap: var(--s2); }
+  .opt { position: relative; display: flex; cursor: pointer; }
+  .opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .opt span { flex: 1; min-height: 3.25rem; display: flex; align-items: center; padding: var(--s3) var(--s4); border: 1px solid #5c5357; border-radius: var(--radius-s); }
+  .opt input:checked + span { border-color: var(--accent-text); background: var(--accent-tint); font-weight: 600; }
+  .opt input:checked + span::before { content: '✓'; color: var(--accent-text); margin-right: var(--s2); }
+  .opt input:focus-visible + span { outline: 3px solid var(--accent-text); outline-offset: 2px; }
+  .result { gap: var(--s5); }
+  .result:focus { outline: none; }
+  .result__list { display: grid; gap: var(--s3); }
+  .result__list :global(.res) { display: flex; flex-direction: column; gap: var(--s2); padding: var(--s5); border: 1px solid var(--line); background: var(--surface); }
+  .result__list :global(.res h3) { font-size: 1.5rem; }
+  .result__list :global(.res .acciones) { display: flex; flex-wrap: wrap; gap: var(--s3) var(--s5); align-items: center; margin-top: var(--s2); }
+</style>
+
+<script>
+  type Opcion = { texto: string; suma: Record<string, number> };
+  type Pregunta = { id: string; texto: string; opciones: Opcion[] };
+  type Info = Record<string, { nombre: string; resumen: string; precio: string }>;
+
+  const form = document.getElementById('guia') as HTMLFormElement;
+  const resultado = document.getElementById('resultado') as HTMLElement;
+  const lista = document.getElementById('res-list') as HTMLElement;
+  const error = document.getElementById('guia-error') as HTMLElement;
+  const preguntas: Pregunta[] = JSON.parse(form.dataset.preguntas ?? '[]');
+  const info: Info = JSON.parse(form.dataset.info ?? '{}');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const datos = new FormData(form);
+    if (preguntas.some((p) => !datos.has(p.id))) { error.hidden = false; return; }
+    error.hidden = true;
+
+    const puntos: Record<string, number> = {};
+    preguntas.forEach((p) => {
+      const op = p.opciones[Number(datos.get(p.id))];
+      Object.entries(op.suma).forEach(([id, n]) => (puntos[id] = (puntos[id] ?? 0) + n));
+    });
+    const top = Object.entries(puntos).filter(([id]) => info[id]).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([id]) => id);
+
+    lista.replaceChildren(
+      ...(top.length ? top : ['corte']).map((id) => {
+        const s = info[id];
+        const el = document.createElement('article');
+        el.className = 'res';
+        el.innerHTML = `<h3></h3><p class="muted"></p><p class="small"></p><div class="acciones"><a class="btn btn--primary btn--small" href="/reservar?servicio=${id}">Reservar</a><a class="link-arrow small" href="/servicios/${id}">Ver el servicio</a></div>`;
+        (el.querySelector('h3') as HTMLElement).textContent = s.nombre;
+        (el.querySelector('p.muted') as HTMLElement).textContent = s.resumen;
+        (el.querySelector('p.small') as HTMLElement).textContent = s.precio;
+        return el;
+      }),
+    );
+    form.hidden = true;
+    resultado.hidden = false;
+    resultado.focus();
+  });
+
+  document.getElementById('res-again')?.addEventListener('click', () => {
+    form.reset();
+    resultado.hidden = true;
+    form.hidden = false;
+    form.querySelector('input')?.focus();
+  });
+</script>

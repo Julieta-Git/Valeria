@@ -1,0 +1,15 @@
+---
+/**
+ * Lugar reservado para una foto real. Muestra qué foto va ahí.
+ * Cuando exista la foto, reemplazar por <Image src={...} alt="..." /> de astro:assets.
+ */
+interface Props {
+  label: string;
+  ratio?: string; // ej.: "4 / 5"
+  class?: string;
+}
+const { label, ratio = '4 / 5', class: className = '' } = Astro.props;
+---
+<div class={`ph ${className}`} style={`aspect-ratio: ${ratio}`} role="img" aria-label={`Foto pendiente: ${label}`}>
+  <span>Foto pendiente · {label}</span>
+</div>

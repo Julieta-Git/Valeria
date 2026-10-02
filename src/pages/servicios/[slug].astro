@@ -1,0 +1,208 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import site from '../../data/site.json';
+import galeria from '../../data/galeria.json';
+import { categorias, precio, precioDesde } from '../../lib/format';
+import { enlaceReserva } from '../../lib/whatsapp';
+
+export async function getStaticPaths() {
+  const servicios = await getCollection('servicios');
+  return servicios.map((s) => ({ params: { slug: s.id }, props: { servicio: s } }));
+}
+
+const { servicio } = Astro.props;
+const d = servicio.data;
+const { Content } = await render(servicio);
+
+const relacionados = (await Promise.all(d.relacionados.map((id) => getEntry('servicios', id)))).filter(Boolean);
+const consejos = (await Promise.all(d.consejos.map((id) => getEntry('consejos', id)))).filter(Boolean);
+const trabajos = galeria.items.filter((g) => g.servicio === servicio.id);
+const ba = trabajos.find((t) => t.tipo === 'antes-despues');
+const fotos = trabajos.filter((t) => t.tipo !== 'antes-despues');
+const url = new URL(`/servicios/${servicio.id}`, Astro.site).toString();
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: d.nombre,
+    description: d.resumen,
+    serviceType: d.nombre,
+    provider: { '@type': 'HairSalon', name: site.nombre },
+    url,
+    ...(typeof d.precioDesde === 'number'
+      ? { offers: { '@type': 'Offer', priceCurrency: 'ARS', price: d.precioDesde, priceSpecification: { '@type': 'PriceSpecification', minPrice: d.precioDesde, priceCurrency: 'ARS' } } }
+      : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: new URL('/', Astro.site).toString() },
+      { '@type': 'ListItem', position: 2, name: 'Servicios', item: new URL('/servicios', Astro.site).toString() },
+      { '@type': 'ListItem', position: 3, name: d.nombre, item: url },
+    ],
+  },
+];
+---
+<Base
+  title={`${d.nombre} en ${site.ciudad}`}
+  description={d.seoDescripcion ?? `${d.nombre}: ${d.resumen} ${precioDesde(d.precioDesde)}. Pedí tu turno con Valeria por WhatsApp.`}
+  schema={schema}
+  bar={{ label: `Reservar`, href: enlaceReserva(servicio.id), detail: `${d.nombre} · ${precioDesde(d.precioDesde)}` }}
+>
+  <nav aria-label="Ruta" class="container crumbs small muted">
+    <a href="/">Inicio</a> / <a href="/servicios">Servicios</a> / <a href={`/servicios#${d.categoria}`}>{categorias[d.categoria]}</a> / <span aria-current="page">{d.nombre}</span>
+  </nav>
+
+  <section class="container svc">
+    <div class="svc__media">
+      <Placeholder label={d.foto} ratio="4 / 5" />
+    </div>
+    <div class="svc__info stack">
+      <p class="tag">{categorias[d.categoria]}</p>
+      <h1>{d.nombre}</h1>
+      <p class="lead">{d.resumen}</p>
+
+      <dl class="facts">
+        <div><dt>Duración aprox.</dt><dd>{d.duracion ?? <span class="pendiente">a confirmar</span>}</dd></div>
+        <div><dt>Frecuencia</dt><dd>{d.frecuencia ?? <span class="pendiente">a confirmar</span>}</dd></div>
+        <div><dt>Precio</dt><dd>{precioDesde(d.precioDesde)}</dd></div>
+      </dl>
+
+      {d.variantes.length > 0 && (
+        <table class="variants">
+          <caption class="visually-hidden">Opciones y precios de {d.nombre}</caption>
+          <thead><tr><th scope="col">Opción</th><th scope="col">Desde</th></tr></thead>
+          <tbody>
+            {d.variantes.map((v) => <tr><td>{v.nombre}</td><td>{v.precio === null ? <span class="pendiente">a confirmar</span> : precio(v.precio)}</td></tr>)}
+          </tbody>
+        </table>
+      )}
+
+      <p class="small muted">Los tiempos y precios son aproximados: pueden variar según el largo y el estado del cabello.</p>
+      {d.pendiente && <p class="small"><span class="pendiente">Pendiente: {d.pendiente}</span></p>}
+
+      <div class="svc__ctas">
+        <a href={enlaceReserva(servicio.id)} class="btn btn--primary">Reservar {d.nombre.toLowerCase()}</a>
+        <a href="/que-tratamiento-necesito" class="btn btn--ghost">¿Es para mí?</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="info">
+    <div class="container info">
+      <h2 id="info">Todo sobre {d.nombre.toLowerCase()}</h2>
+      <div class="prose info__body"><Content /></div>
+    </div>
+  </section>
+
+  {trabajos.length > 0 && (
+    <section class="section" aria-labelledby="trabajos">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="trabajos">Trabajos realizados</h2>
+          <a href="/galeria" class="link-arrow">Ver toda la galería</a>
+        </div>
+        <div class="works">
+          {ba && <div class="works__ba"><BeforeAfter descripcion={ba.descripcion} /></div>}
+          {fotos.map((f) => <Placeholder label={f.descripcion} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {consejos.length > 0 && (
+    <section class="section section--tight" aria-labelledby="cuidados">
+      <div class="container">
+        <h2 id="cuidados" class="mb">Consejos relacionados</h2>
+        <div class="grid grid--3">
+          {consejos.map((c) => c && (
+            <a href={`/consejos/${c.id}`} class="tip">
+              <span class="tag">{c.data.tema}</span>
+              <span class="tip__title">{c.data.titulo}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {relacionados.length > 0 && (
+    <section class="section section--tight" aria-labelledby="combina">
+      <div class="container">
+        <h2 id="combina" class="mb">Suele combinarse con</h2>
+        <div class="grid grid--3">
+          {relacionados.map((r) => r && (
+            <a href={`/servicios/${r.id}`} class="rel">
+              <Placeholder label={r.data.nombre} ratio="1 / 1" class="rel__img" />
+              <span><span class="rel__name">{r.data.nombre}</span><span class="small muted">{precioDesde(r.data.precioDesde)}</span></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="final">
+    <div class="container stack final__inner">
+      <h2>¿Querés tu <span class="script">{d.nombre.toLowerCase()}</span>?</h2>
+      <p class="muted">Contale a Valeria cómo tenés el cabello hoy y te confirma día y horario.</p>
+      <a href={enlaceReserva(servicio.id)} class="btn btn--primary">Reservar {d.nombre.toLowerCase()}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .crumbs { padding-top: var(--s5); }
+  .crumbs a { color: var(--text-soft); }
+  .svc { display: grid; gap: var(--s7); padding-block: var(--s6) var(--section); }
+  .svc__info { gap: var(--s5); }
+  .svc__info h1 { font-size: var(--fs-display); }
+  .svc__ctas { display: flex; flex-wrap: wrap; gap: var(--s3); }
+  @media (min-width: 60rem) {
+    .svc { grid-template-columns: 1fr 1fr; gap: var(--s9); align-items: start; }
+    .svc__media { position: sticky; top: 6rem; }
+  }
+  @media (max-width: 40rem) { .svc__media { margin-inline: calc(var(--gutter) * -1); } .svc__ctas .btn { flex: 1 1 100%; } }
+
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; border-block: 1px solid var(--line); }
+  .facts > div { padding: var(--s4) var(--s3) var(--s4) 0; }
+  .facts > div + div { padding-left: var(--s4); border-left: 1px solid var(--line); }
+  .facts dt { font-size: var(--fs-label); color: var(--text-soft); }
+  .facts dd { margin: var(--s1) 0 0; font-weight: 600; line-height: 1.35; }
+  @media (max-width: 30rem) {
+    .facts { grid-template-columns: 1fr; }
+    .facts > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+  }
+
+  .variants { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  .variants th { text-align: left; font-weight: 500; color: var(--text-soft); font-size: var(--fs-label); padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+  .variants td { padding: var(--s3) 0; border-bottom: 1px solid var(--line); }
+  .variants td:last-child, .variants th:last-child { text-align: right; }
+
+  .info { display: grid; gap: var(--s6); }
+  @media (min-width: 60rem) { .info { grid-template-columns: 1fr 2fr; gap: var(--s9); } .info h2 { position: sticky; top: 6rem; align-self: start; } }
+  .info__body :global(h2) { font-family: var(--font-body); font-size: 1.125rem; font-weight: 600; margin-top: var(--s6); }
+  .info__body :global(h2:first-child) { margin-top: 0; }
+
+  .works { display: grid; gap: var(--s3); grid-template-columns: repeat(2, 1fr); }
+  .works__ba { grid-column: 1 / -1; }
+  @media (min-width: 60rem) { .works { grid-template-columns: repeat(4, 1fr); } .works__ba { grid-column: span 2; } }
+
+  .section--tight { padding-block: var(--s8) 0; }
+  .mb { margin-bottom: var(--s6); font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem); }
+  .tip { display: flex; flex-direction: column; gap: var(--s2); padding: var(--s5); border: 1px solid var(--line); text-decoration: none; color: var(--text); }
+  .tip:hover { border-color: var(--accent-text); color: var(--text); }
+  .tip__title { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.25; }
+  .rel { display: flex; align-items: center; gap: var(--s4); padding: var(--s3); border: 1px solid var(--line); text-decoration: none; color: var(--text); }
+  .rel:hover { border-color: var(--accent-text); color: var(--text); }
+  .rel :global(.rel__img) { width: 5rem; flex-shrink: 0; padding: var(--s2); font-size: 0.5625rem; }
+  .rel__name { display: block; font-family: var(--font-display); font-size: 1.25rem; }
+
+  .final { padding-block: var(--section); text-align: center; }
+  .final__inner { align-items: center; gap: var(--s4); }
+</style>

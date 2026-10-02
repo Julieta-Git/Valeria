@@ -1,0 +1,36 @@
+{
+  "_ayuda": "Datos generales del salón. Lo que está entre [corchetes] falta confirmarlo. Cambiar acá actualiza toda la web.",
+  "nombre": "Valeria Salón de Belleza",
+  "nombreCorto": "Valeria",
+  "eslogan": "Tu color, tu estilo",
+  "_esloganNota": "Propuesta: validar con Valeria.",
+  "descripcion": "Colorista con 10 años de experiencia, especializada en color fantasía y colorimetría. Corte, color, alisados, tratamientos, peinados y belleza con atención personalizada.",
+  "ciudad": "[Ciudad]",
+  "provincia": "[Provincia]",
+  "direccion": "[Dirección]",
+  "mapsUrl": "",
+  "mostrarPendientes": true,
+  "whatsapp": {
+    "numero": "",
+    "_numeroAyuda": "Formato internacional sin + ni espacios. Ej.: 5491122334455",
+    "numeroVisible": "[Número de WhatsApp]"
+  },
+  "redes": [
+    { "nombre": "Instagram", "url": "", "usuario": "@[usuario]" }
+  ],
+  "horarios": {
+    "dias": "Lunes a sábado",
+    "manana": "desde las 9 h",
+    "tarde": "desde las 14 h",
+    "nota": "Domingos y fuera de horario: solo eventos especiales, con turno previo."
+  },
+  "domicilio": "También atiende a domicilio. [Zonas a confirmar]",
+  "anticipacionMinimaHoras": 24,
+  "mediosDePago": ["Efectivo", "Transferencia", "Débito", "Crédito", "Mercado Pago"],
+  "preciosActualizados": "octubre de 2026",
+  "valeria": {
+    "experiencia": "10 años",
+    "titulo": "Colorista",
+    "especialidad": "Color fantasía y colorimetría"
+  }
+}

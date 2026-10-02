@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import site from '../../data/site.json';
+import { categorias, type Categoria } from '../../lib/format';
+
+const todos = (await getCollection('servicios')).sort((a, b) => a.data.orden - b.data.orden);
+const grupos = (Object.keys(categorias) as Categoria[]).map((c) => ({
+  id: c,
+  nombre: categorias[c],
+  items: todos.filter((s) => s.data.categoria === c),
+}));
+---
+<Base
+  title="Servicios"
+  description={`Color fantasía, color, balayage, alisado, tratamientos, peinados, maquillaje, cejas y pestañas en ${site.ciudad}. Precios desde y duración aproximada.`}
+>
+  <section class="container page-head stack">
+    <p class="eyebrow">Servicios</p>
+    <h1>Todo lo que tu cabello <span class="script">necesita</span></h1>
+    <p class="lead">Elegí un servicio para ver en qué consiste, cuánto tarda y cómo cuidarlo. Los precios son "desde" y pueden variar según el largo y el estado del cabello.</p>
+    <nav aria-label="Categorías" class="chips">
+      {grupos.map((g) => <a class="chip" href={`#${g.id}`}>{g.nombre}</a>)}
+      <a class="chip" href="/que-tratamiento-necesito">¿No sabés cuál elegir?</a>
+    </nav>
+  </section>
+
+  {grupos.map((g) => (
+    <section id={g.id} class="section cat" aria-labelledby={`h-${g.id}`}>
+      <div class="container">
+        <h2 id={`h-${g.id}`} class="cat__title">{g.nombre}</h2>
+        <div class="grid">
+          {g.items.map((s) => <ServiceCard servicio={s} ratio="1 / 1" />)}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="container small muted price-note">
+    Precios actualizados a {site.preciosActualizados}. Medios de pago: {site.mediosDePago.join(', ')}.
+  </section>
+</Base>
+
+<style>
+  .page-head { padding-block: var(--s8) var(--s5); gap: var(--s5); }
+  .cat { padding-block: var(--s7); scroll-margin-top: 5rem; }
+  .cat__title { padding-bottom: var(--s4); margin-bottom: var(--s6); border-bottom: 1px solid var(--line); }
+  .price-note { padding-bottom: var(--s9); }
+</style>

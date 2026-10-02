@@ -1,0 +1,40 @@
+---
+import Logo from './Logo.astro';
+import site from '../data/site.json';
+import { enlaceWhatsApp } from '../lib/whatsapp';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer" id="contacto-footer">
+  <div class="container site-footer__grid">
+    <div class="stack">
+      <Logo size="l" />
+      <p class="muted small">{site.valeria.titulo} · {site.valeria.experiencia} de experiencia</p>
+    </div>
+    <div class="stack">
+      <h2 class="site-footer__title">Contacto</h2>
+      <p class="muted">{site.direccion}<br />{site.ciudad}</p>
+      <a href={enlaceWhatsApp()} target="_blank" rel="noopener">WhatsApp {site.whatsapp.numeroVisible}</a>
+      {site.mapsUrl ? <a href={site.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a> : <a href="/contacto">Cómo llegar</a>}
+    </div>
+    <div class="stack">
+      <h2 class="site-footer__title">Horarios</h2>
+      <p class="muted">{site.horarios.dias}<br />Mañana {site.horarios.manana}<br />Tarde {site.horarios.tarde}</p>
+      <p class="muted small">{site.horarios.nota}</p>
+    </div>
+    <div class="stack">
+      <h2 class="site-footer__title">Seguinos</h2>
+      {site.redes.map((r) => <a href={r.url || '#'} target="_blank" rel="noopener">{r.nombre}</a>)}
+      <a href="/politicas">Políticas del salón</a>
+    </div>
+  </div>
+  <div class="container site-footer__bottom small muted">© {year} {site.nombre}</div>
+</footer>
+
+<style>
+  .site-footer { border-top: 1px solid var(--line); padding-block: var(--s8) var(--s6); }
+  .site-footer__grid { display: grid; gap: var(--s7) var(--s6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+  .site-footer__title { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; letter-spacing: 0.04em; }
+  .site-footer .stack { gap: var(--s2); }
+  .site-footer__bottom { margin-top: var(--s8); padding-top: var(--s5); border-top: 1px solid var(--line); }
+  @media (max-width: 60rem) { .site-footer { padding-bottom: 7rem; } }
+</style>

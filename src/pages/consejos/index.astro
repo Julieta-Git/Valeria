@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+const consejos = (await getCollection('consejos')).sort((a, b) => +b.data.fecha - +a.data.fecha);
+---
+<Base title="Conocé tu cabello" description="Consejos de Valeria para cuidar el color, el alisado y la salud del cabello entre turnos.">
+  <section class="container head stack">
+    <p class="eyebrow">Conocé tu cabello</p>
+    <h1>Consejos para cuidarlo <span class="script">entre turnos</span></h1>
+    <p class="lead">Respuestas cortas a las preguntas que más le hacen a Valeria en el salón.</p>
+  </section>
+  <section class="container list">
+    {consejos.map((c) => (
+      <a href={`/consejos/${c.id}`} class="item reveal">
+        <span class="tag">{c.data.tema}</span>
+        <h2>{c.data.titulo}</h2>
+        <p class="muted">{c.data.resumen}</p>
+        <span class="link-arrow small">Leer</span>
+      </a>
+    ))}
+  </section>
+</Base>
+<style>
+  .head { padding-block: var(--s8) var(--s7); gap: var(--s5); }
+  .list { display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); padding-bottom: var(--section); }
+  .item { display: flex; flex-direction: column; gap: var(--s3); padding: var(--s6); border: 1px solid var(--line); background: var(--surface); text-decoration: none; color: var(--text); }
+  .item:hover { border-color: var(--accent-text); color: var(--text); }
+  .item h2 { font-size: 1.5rem; line-height: 1.2; }
+  .item p { flex: 1; }
+</style>

@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import Placeholder from '../components/Placeholder.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
+import galeria from '../data/galeria.json';
+import site from '../data/site.json';
+
+const usadas = galeria.categorias.filter((c) => galeria.items.some((i) => i.categoria === c));
+---
+<Base title="Galería de trabajos" description={`Trabajos reales de ${site.nombre}: color fantasía, balayage, alisados, peinados, maquillaje, cejas y pestañas.`}>
+  <section class="container head stack">
+    <p class="eyebrow">Galería</p>
+    <h1>Trabajos <span class="script">reales</span></h1>
+    <p class="lead">Resultados hechos en el salón. Cada foto se publica con autorización de la clienta.</p>
+    <div class="chips chips--scroll" role="group" aria-label="Filtrar por categoría" data-filtros>
+      <button type="button" class="chip" aria-pressed="true" data-cat="todas">Todas</button>
+      {usadas.map((c) => <button type="button" class="chip" aria-pressed="false" data-cat={c}>{c}</button>)}
+    </div>
+    <p class="visually-hidden" role="status" data-estado></p>
+  </section>
+
+  <section class="container gal" data-galeria>
+    {galeria.items.map((i) => (
+      <div class:list={['gal__item', { 'gal__item--wide': i.tipo === 'antes-despues' }]} data-cat={i.categoria}>
+        {i.tipo === 'antes-despues'
+          ? <BeforeAfter descripcion={i.descripcion} servicio={i.servicio} />
+          : <figure class="gal__fig"><Placeholder label={i.descripcion} /><figcaption class="small muted">{i.categoria}{i.servicio && <> · <a href={`/servicios/${i.servicio}`}>ver servicio</a></>}</figcaption></figure>}
+      </div>
+    ))}
+  </section>
+</Base>
+
+<style>
+  .head { padding-block: var(--s8) var(--s6); gap: var(--s5); }
+  .gal { display: grid; gap: var(--s5) var(--s3); grid-template-columns: repeat(2, 1fr); padding-bottom: var(--section); }
+  .gal__item--wide { grid-column: 1 / -1; }
+  .gal__fig { margin: 0; display: flex; flex-direction: column; gap: var(--s2); }
+  .gal__item[hidden] { display: none; }
+  @media (min-width: 48rem) { .gal { grid-template-columns: repeat(3, 1fr); } .gal__item--wide { grid-column: span 2; } }
+  @media (min-width: 72rem) { .gal { grid-template-columns: repeat(4, 1fr); } }
+</style>
+
+<script>
+  const botones = document.querySelectorAll<HTMLButtonElement>('[data-filtros] .chip');
+  const items = document.querySelectorAll<HTMLElement>('[data-galeria] .gal__item');
+  const estado = document.querySelector('[data-estado]');
+  botones.forEach((b) =>
+    b.addEventListener('click', () => {
+      const cat = b.dataset.cat;
+      botones.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      let n = 0;
+      items.forEach((i) => { const ver = cat === 'todas' || i.dataset.cat === cat; i.hidden = !ver; if (ver) n++; });
+      if (estado) estado.textContent = `${n} trabajos`;
+    }),
+  );
+</script>

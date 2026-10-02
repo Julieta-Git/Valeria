@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+---
+<Base title="Políticas del salón" description={`Turnos, cancelaciones, uso de imágenes y datos personales en ${site.nombre}.`}>
+  <article class="container art prose">
+    <p class="eyebrow">Políticas</p>
+    <h1>Políticas del salón</h1>
+    <p><span class="pendiente">Borrador redactado a partir de lo que dijo Valeria: revisar con ella antes de publicar.</span></p>
+
+    <h2>Turnos</h2>
+    <p>Los turnos se piden por WhatsApp con al menos {site.anticipacionMinimaHoras} horas de anticipación. La solicitud queda confirmada cuando Valeria responde.</p>
+
+    <h2>Cancelaciones</h2>
+    <p>Si no podés venir, avisá con la mayor anticipación posible para que otra clienta pueda usar ese horario. <span class="pendiente">Completar: con cuántas horas de anticipación avisar.</span></p>
+    <p>Las cancelaciones de último momento o las ausencias sin aviso pueden hacer que el salón no reserve nuevos turnos a esa persona.</p>
+    <p><span class="pendiente">Completar: tolerancia de llegada tarde.</span></p>
+
+    <h2>Precios</h2>
+    <p>Los precios publicados son valores "desde" y pueden variar según el largo y el estado del cabello. Actualizados a {site.preciosActualizados}.</p>
+
+    <h2>Uso de imágenes</h2>
+    <p>Las fotos de trabajos se publican únicamente con la autorización de cada clienta. Si aparecés en alguna y querés que se quite, escribinos por WhatsApp.</p>
+
+    <h2>Datos personales</h2>
+    <p>Los datos que envías al pedir un turno (nombre y mensaje) llegan directamente al WhatsApp del salón y se usan solo para coordinar tu turno. Esta web no los guarda.</p>
+  </article>
+</Base>
+<style>
+  .art { padding-block: var(--s8) var(--section); }
+</style>

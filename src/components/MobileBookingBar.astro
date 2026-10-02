@@ -1,0 +1,30 @@
+---
+// Barra fija de reserva en celular. Aparece después de pasar el primer bloque.
+interface Props { label?: string; href?: string; detail?: string }
+const { label = 'Reservar turno', href = '/reservar', detail } = Astro.props;
+---
+<div class="mbar" data-mbar>
+  {detail && <span class="mbar__detail small">{detail}</span>}
+  <a href={href} class="btn btn--primary mbar__btn">{label}</a>
+</div>
+<style>
+  .mbar { display: none; }
+  @media (max-width: 60rem) {
+    .mbar {
+      display: flex; align-items: center; gap: var(--s3);
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+      padding: var(--s3) var(--gutter) calc(var(--s3) + env(safe-area-inset-bottom));
+      background: rgba(22, 18, 20, 0.97); border-top: 1px solid var(--line); box-shadow: var(--shadow);
+      transform: translateY(110%); transition: transform 0.3s var(--ease);
+    }
+    .mbar.is-visible { transform: none; }
+    .mbar__detail { flex: 1; color: var(--text-soft); line-height: 1.3; }
+    .mbar__btn { flex: 1; }
+  }
+</style>
+<script>
+  const bar = document.querySelector('[data-mbar]');
+  const onScroll = () => bar?.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.6);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
