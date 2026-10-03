@@ -118,6 +118,23 @@ html { scrollbar-color: #3a3236 var(--bg); }
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
 }
 .grid--3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+@media (max-width: 40rem) {
+  .grid--compact { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5) var(--s3); }
+  .grid--compact .card__title { font-size: 1.15rem; }
+  .grid--compact .card__desc { font-size: 0.85rem; }
+  .grid--compact .card__meta { font-size: 0.8rem; flex-direction: column; gap: 0; }
+}
+/* En celular, las grillas con .rail se deslizan de costado en vez de apilarse */
+@media (max-width: 40rem) {
+  .rail {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 78%; grid-template-columns: none;
+    gap: var(--s4); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+    margin-inline: calc(var(--gutter) * -1); padding: 0 var(--gutter) var(--s3);
+    scroll-padding-inline: var(--gutter); scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail > * { scroll-snap-align: start; }
+}
 
 /* --- Tipografía de acento ----------------------------------------------- */
 .eyebrow {

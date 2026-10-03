@@ -1,7 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import site from '../data/site.json';
-import { enlaceWhatsApp } from '../lib/whatsapp';
+import WhatsAppButton from './WhatsAppButton.astro';
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer" id="contacto-footer">
@@ -13,7 +13,7 @@ const year = new Date().getFullYear();
     <div class="stack">
       <h2 class="site-footer__title">Contacto</h2>
       <p class="muted">{site.direccion}<br />{site.ciudad}, {site.provincia}</p>
-      <a href={enlaceWhatsApp()} target="_blank" rel="noopener">WhatsApp {site.whatsapp.numeroVisible}</a>
+      <WhatsAppButton label="WhatsApp" />
       {site.mapsUrl ? <a href={site.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a> : <a href="/contacto">Cómo llegar</a>}
     </div>
     <div class="stack">

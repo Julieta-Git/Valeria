@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
-import { enlaceWhatsApp } from '../lib/whatsapp';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
 ---
 <Base title="Contacto y ubicación" description={`Dirección, horarios y WhatsApp de ${site.nombre} en ${site.ciudad}.`}>
   <section class="container contact">
@@ -10,7 +10,7 @@ import { enlaceWhatsApp } from '../lib/whatsapp';
       <h1>Vení a <span class="script">conocernos</span></h1>
       <dl class="data">
         <div><dt>Dirección</dt><dd>{site.direccion}, {site.ciudad}</dd></div>
-        <div><dt>WhatsApp</dt><dd><a href={enlaceWhatsApp()} target="_blank" rel="noopener">{site.whatsapp.numeroVisible}</a></dd></div>
+        <div><dt>WhatsApp</dt><dd><WhatsAppButton /></dd></div>
         <div><dt>Horarios</dt><dd>{site.horarios.dias}<br />Mañana {site.horarios.manana} · Tarde {site.horarios.tarde}<br /><span class="muted small">{site.horarios.nota}</span></dd></div>
         <div><dt>A domicilio</dt><dd>{site.domicilio}</dd></div>
         <div><dt>Medios de pago</dt><dd>{site.mediosDePago.join(', ')}</dd></div>

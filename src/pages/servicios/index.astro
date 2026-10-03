@@ -30,7 +30,7 @@ const grupos = (Object.keys(categorias) as Categoria[]).map((c) => ({
     <section id={g.id} class="section cat" aria-labelledby={`h-${g.id}`}>
       <div class="container">
         <h2 id={`h-${g.id}`} class="cat__title">{g.nombre}</h2>
-        <div class="grid">
+        <div class="grid grid--compact">
           {g.items.map((s) => <ServiceCard servicio={s} ratio="1 / 1" />)}
         </div>
       </div>

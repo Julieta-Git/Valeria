@@ -11,9 +11,9 @@
   "mapsUrl": "https://maps.app.goo.gl/dL2PmRYM3mURysfF7",
   "mostrarPendientes": true,
   "whatsapp": {
-    "numero": "",
+    "numero": "5493704284507",
     "_numeroAyuda": "Formato internacional sin + ni espacios. Ej.: 5491122334455",
-    "numeroVisible": "[Número de WhatsApp]"
+    "numeroVisible": "+54 9 3704 28-4507"
   },
   "redes": [
     {
@@ -28,7 +28,7 @@
     "tarde": "desde las 14 h",
     "nota": "Domingos y fuera de horario: solo eventos especiales, con turno previo."
   },
-  "domicilio": "También atiende a domicilio. [Zonas a confirmar]",
+  "domicilio": "También se atiende a domicilio.",
   "anticipacionMinimaHoras": 24,
   "mediosDePago": [
     "Efectivo",

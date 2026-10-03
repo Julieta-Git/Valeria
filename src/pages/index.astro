@@ -36,6 +36,10 @@ const diferenciales = [
         <div class="hero__ctas">
           <a href="/reservar" class="btn btn--primary">Reservar turno</a>
           <a href="/servicios" class="btn btn--ghost">Ver servicios</a>
+          <a href={site.mapsUrl || '/contacto'} class="btn btn--ghost" target={site.mapsUrl ? '_blank' : undefined} rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" /></svg>
+            Cómo llegar
+          </a>
         </div>
         <p class="small muted">{site.horarios.dias} · Mañana {site.horarios.manana} · Tarde {site.horarios.tarde}</p>
       </div>
@@ -53,7 +57,7 @@ const diferenciales = [
         </div>
         <a href="/servicios" class="link-arrow">Ver todos los servicios</a>
       </div>
-      <div class="grid">
+      <div class="grid rail">
         {destacados.map((s) => <ServiceCard servicio={s} />)}
       </div>
     </div>
@@ -136,7 +140,7 @@ const diferenciales = [
         </div>
         <a href="/consejos" class="link-arrow">Ver todos los consejos</a>
       </div>
-      <div class="grid grid--3">
+      <div class="grid grid--3 rail">
         {consejos.map((c) => (
           <a href={`/consejos/${c.id}`} class="tip reveal">
             <span class="tag">{c.data.tema}</span>
@@ -154,12 +158,16 @@ const diferenciales = [
       <div class="section-head">
         <div>
           <h2 id="instagram">Seguí los trabajos en <span class="script">Instagram</span></h2>
-          <p>{instagram?.usuario}</p>
+          <p><a href={instagram?.url} target="_blank" rel="noopener">{instagram?.usuario}</a></p>
         </div>
         <a href={instagram?.url || '#'} class="btn btn--ghost" target="_blank" rel="noopener">Ver perfil</a>
       </div>
       <div class="ig">
-        {[1, 2, 3, 4, 5, 6].map((n) => <Placeholder label={`Publicación ${n}`} ratio="1 / 1" />)}
+        {[1, 2, 3, 4, 5, 6].map((n) => (
+          <a href={instagram?.url} target="_blank" rel="noopener" class="ig__item" aria-label={`Ver publicación ${n} en Instagram`}>
+            <Placeholder label={`Publicación ${n}`} ratio="1 / 1" />
+          </a>
+        ))}
       </div>
     </div>
   </section>
@@ -197,13 +205,20 @@ const diferenciales = [
   .hero__title { font-size: var(--fs-display); line-height: 1; }
   .hero__title .script { display: block; font-size: 1.3em; margin: 0.05em 0 0; }
   .hero__ctas { display: flex; flex-wrap: wrap; gap: var(--s3); }
+  .hero__ctas .btn { padding-inline: var(--s5); }
   @media (min-width: 60rem) {
     .hero__grid { grid-template-columns: 1.05fr 1fr; gap: var(--s9); }
   }
   @media (max-width: 40rem) {
-    .hero { padding-top: 0; }
-    .hero__ctas .btn { flex: 1 1 100%; }
-    .hero__grid :global(.hero__img) { order: -1; margin-inline: calc(var(--gutter) * -1); width: calc(100% + var(--gutter) * 2); }
+    .hero { padding-top: var(--s6); }
+    .hero__text { gap: var(--s4); }
+    /* En celular: primero el mensaje y los botones, después la foto */
+    .hero__ctas .btn { flex: 1 1 calc(50% - var(--s3)); padding-inline: var(--s3); }
+    .hero__ctas .btn--primary { flex-basis: 100%; }
+    .hero__grid :global(.hero__img) { aspect-ratio: 4 / 3 !important; }
+    .results > :global(:nth-child(n + 6)) { display: none; }
+    .about :global(.ph) { aspect-ratio: 4 / 3 !important; }
+    .about__facts dd { font-size: 1.125rem; }
   }
 
   .section--tight { padding-block: var(--s8); }
@@ -236,6 +251,9 @@ const diferenciales = [
   .tip:hover { border-color: var(--accent-text); color: var(--text); }
   .tip h3 { flex: 1; }
 
+  .ig__item { display: block; overflow: hidden; }
+  .ig__item > * { transition: transform 0.5s var(--ease); }
+  .ig__item:hover > * { transform: scale(1.04); }
   .ig { display: grid; gap: var(--s2); grid-template-columns: repeat(3, 1fr); }
   @media (min-width: 60rem) { .ig { grid-template-columns: repeat(6, 1fr); } }
 
