@@ -6,11 +6,6 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileBookingBar from '../components/MobileBookingBar.astro';
-import Intro from '../components/Intro.astro';
-// Archivos de las tipografías para precargarlos (evita que cambie la letra al navegar).
-import fontBody from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url';
-import fontDisplay from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
-import fontScript from '@fontsource/yellowtail/files/yellowtail-latin-400-normal.woff2?url';
 import site from '../data/site.json';
 
 interface Props {
@@ -78,27 +73,10 @@ const jsonLd = [negocio, ...schema];
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preload" href={fontBody} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={fontDisplay} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={fontScript} as="font" type="font/woff2" crossorigin />
-    <script is:inline>
-      (function () {
-        var html = document.documentElement;
-        html.classList.add('js');
-        // Animación de entrada: solo la primera vez por sesión y sin "reducir movimiento".
-        try {
-          var calma = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (!calma && !sessionStorage.getItem('vl-intro')) {
-            html.classList.add('intro');
-            sessionStorage.setItem('vl-intro', '1');
-          }
-        } catch (e) {}
-      })();
-    </script>
+    <script is:inline>document.documentElement.classList.add('js');</script>
     {jsonLd.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
   </head>
   <body>
-    <Intro />
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <Header />
     <main id="contenido">

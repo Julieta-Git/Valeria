@@ -28,10 +28,10 @@ const diferenciales = [
   <section class="hero">
     <div class="container hero__grid">
       <div class="hero__text stack">
-        <p class="eyebrow">Peluquería y belleza · {site.ciudad}</p>
+        <p class="eyebrow">Colorista · Peluquería y belleza · {site.ciudad}</p>
         <h1 class="hero__title">Tu color, <span class="script">tu estilo</span></h1>
         <p class="lead">
-          Hola, soy Valeria, peluquera con {site.valeria.experiencia} de experiencia, colorista especializada. Color, corte, alisados, tratamientos y belleza con atención personalizada.
+          Soy Valeria, colorista con {site.valeria.experiencia} de experiencia y especializada en color fantasía. Color, corte, alisados, tratamientos y belleza con atención personalizada.
         </p>
         <div class="hero__ctas">
           <a href="/reservar" class="btn btn--primary">Reservar turno</a>
@@ -96,14 +96,14 @@ const diferenciales = [
       <Placeholder label="Retrato de Valeria en el salón" ratio="4 / 5" />
       <div class="stack about__text">
         <p class="eyebrow">Sobre Valeria</p>
-        <h2 id="sobre"><span class="pendiente">Título a confirmar con Valeria</span></h2>
+        <h2 id="sobre">Colorista, <span class="script">apasionada por el color</span></h2>
         <p class="lead">
-          <span class="pendiente">Texto de presentación a confirmar con Valeria.</span>
+          Hace {site.valeria.experiencia} que trabajo con el color. Me especializo en {site.valeria.especialidad.toLowerCase()}, y en cada turno reviso lo que querés, te oriento y busco siempre la salud de tu pelo.
         </p>
         <dl class="about__facts">
           <div><dt class="muted small">Experiencia</dt><dd>{site.valeria.experiencia}</dd></div>
           <div><dt class="muted small">Formación</dt><dd>{site.valeria.titulo}</dd></div>
-          <div><dt class="muted small">Especialidad</dt><dd>{site.valeria.especialidad}</dd></div>
+          <div><dt class="muted small">Especialidad</dt><dd>Color fantasía</dd></div>
         </dl>
         <a href="/sobre-valeria" class="link-arrow">Conocé a Valeria</a>
       </div>
@@ -161,22 +161,6 @@ const diferenciales = [
       <div class="ig">
         {[1, 2, 3, 4, 5, 6].map((n) => <Placeholder label={`Publicación ${n}`} ratio="1 / 1" />)}
       </div>
-    </div>
-  </section>
-
-  <!-- El Rincón de Luciérnaga -->
-  <section class="section rincon-wrap" aria-labelledby="rincon">
-    <div class="container">
-      <a class="rincon reveal" href={site.rincon.url || '#'} target={site.rincon.url ? '_blank' : undefined} rel="noopener">
-        <div class="stack rincon__text">
-          <p class="small muted">También en el salón</p>
-          <h2 id="rincon"><span class="script">{site.rincon.nombre}</span></h2>
-          <p class="muted">{site.rincon.descripcion}</p>
-          <span class="link-arrow">Ver la tienda</span>
-          {!site.rincon.url && <span class="pendiente small">Falta el link de la web del Rincón</span>}
-        </div>
-        <Placeholder label="Rincón de Luciérnaga: accesorios en el salón" ratio="4 / 3" class="rincon__img" />
-      </a>
     </div>
   </section>
 
@@ -238,14 +222,6 @@ const diferenciales = [
 
   .ig { display: grid; gap: var(--s2); grid-template-columns: repeat(3, 1fr); }
   @media (min-width: 60rem) { .ig { grid-template-columns: repeat(6, 1fr); } }
-
-  .rincon { display: grid; gap: var(--s6); align-items: center; padding: clamp(1.5rem, 1rem + 2vw, 3rem); border: 1px solid var(--line); background: var(--surface); text-decoration: none; color: var(--text); transition: border-color 0.25s var(--ease); }
-  .rincon:hover { border-color: var(--accent-text); color: var(--text); }
-  .rincon__text { gap: var(--s3); }
-  .rincon h2 { font-size: clamp(2rem, 1.5rem + 2vw, 3rem); }
-  .rincon h2 .script { margin-left: 0; font-size: 1em; }
-  @media (min-width: 48rem) { .rincon { grid-template-columns: 1.1fr 1fr; gap: var(--s8); } }
-  .rincon-wrap { padding-bottom: 0; }
 
   .final-cta { padding-block: var(--section); border-top: 1px solid var(--line); text-align: center; background: radial-gradient(ellipse at 50% 120%, var(--accent-glow), transparent 60%), var(--bg); }
   .final-cta__inner { align-items: center; gap: var(--s5); }

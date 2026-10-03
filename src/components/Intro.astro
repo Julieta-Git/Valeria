@@ -1,0 +1,83 @@
+---
+/**
+ * Animación de entrada: una tijera corta un hilo rosa y la pantalla se abre en dos.
+ * Se muestra solo en la primera visita de la sesión (no en cada página) y nunca
+ * si la persona tiene activada la opción de reducir movimiento.
+ * La decisión la toma el script en <head> de Base.astro (clase "intro" en <html>).
+ */
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo-valeria.png';
+---
+<div class="intro-screen" aria-hidden="true">
+  <div class="intro__half intro__half--top">
+    <Image src={logo} alt="" width={240} densities={[1, 2]} loading="eager" class="intro__logo" />
+  </div>
+  <div class="intro__half intro__half--bottom"></div>
+  <div class="intro__thread"></div>
+  <svg class="intro__scissors" viewBox="-40 -24 84 48" width="126" height="72" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+    <g class="intro__blade intro__blade--a">
+      <circle cx="-26" cy="-10" r="8" />
+      <path d="M-19 -7 L36 2" />
+    </g>
+    <g class="intro__blade intro__blade--b">
+      <circle cx="-26" cy="10" r="8" />
+      <path d="M-19 7 L36 -2" />
+    </g>
+    <circle cx="0" cy="0" r="2.2" fill="currentColor" stroke="none" />
+  </svg>
+</div>
+
+<style>
+  .intro-screen { display: none; }
+  :global(html.intro) .intro-screen {
+    display: block; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    --cut: 1.05s; /* cuánto tarda la tijera en cruzar */
+  }
+  :global(html.intro) body { overflow: hidden; }
+
+  .intro__half {
+    position: absolute; left: 0; right: 0; height: 50.5%;
+    background: var(--bg) url('/patron-salon.svg') repeat; background-size: 420px;
+    animation: intro-split 0.7s cubic-bezier(0.7, 0, 0.2, 1) calc(var(--cut) + 0.12s) forwards;
+  }
+  .intro__half--top { top: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 2.25rem; --dir: -100%; }
+  .intro__half--bottom { bottom: 0; --dir: 100%; }
+  .intro__logo { width: min(240px, 60vw); height: auto; opacity: 0; animation: intro-logo 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards; }
+
+  /* El hilo desaparece justo detrás de la tijera */
+  .intro__thread {
+    position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px;
+    background: var(--accent);
+    animation: intro-thread var(--cut) cubic-bezier(0.45, 0, 0.25, 1) forwards;
+  }
+  .intro__scissors {
+    position: absolute; top: 50%; left: 0; margin-top: -36px; color: var(--accent);
+    animation: intro-travel var(--cut) cubic-bezier(0.45, 0, 0.25, 1) forwards, intro-fade 0.2s ease var(--cut) forwards;
+  }
+  .intro__blade { transform-box: view-box; transform-origin: 50% 50%; animation: intro-snip 0.2s ease-in-out infinite alternate; }
+  .intro__blade--a { --open: -16deg; }
+  .intro__blade--b { --open: 16deg; }
+
+  @keyframes intro-travel { from { transform: translateX(-130px); } to { transform: translateX(calc(100vw + 10px)); } }
+  @keyframes intro-thread { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 0 0 100%); } }
+  @keyframes intro-snip { from { transform: rotate(var(--open)); } to { transform: rotate(0deg); } }
+  @keyframes intro-fade { to { opacity: 0; } }
+  @keyframes intro-logo { from { opacity: 0; transform: translateY(10px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes intro-split { to { transform: translateY(var(--dir)); } }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const el = document.querySelector<HTMLElement>('.intro-screen');
+  if (root.classList.contains('intro') && el) {
+    const done = () => {
+      root.classList.remove('intro');
+      el.remove();
+    };
+    // Termina cuando se abre la pantalla; el timeout es por las dudas.
+    el.querySelector('.intro__half--bottom')?.addEventListener('animationend', done, { once: true });
+    setTimeout(done, 2600);
+  } else {
+    el?.remove();
+  }
+</script>

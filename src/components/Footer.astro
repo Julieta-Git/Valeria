@@ -12,7 +12,7 @@ const year = new Date().getFullYear();
     </div>
     <div class="stack">
       <h2 class="site-footer__title">Contacto</h2>
-      <p class="muted">{site.direccion}<br />{site.ciudad}</p>
+      <p class="muted">{site.direccion}<br />{site.ciudad}, {site.provincia}</p>
       <a href={enlaceWhatsApp()} target="_blank" rel="noopener">WhatsApp {site.whatsapp.numeroVisible}</a>
       {site.mapsUrl ? <a href={site.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a> : <a href="/contacto">Cómo llegar</a>}
     </div>
@@ -24,6 +24,7 @@ const year = new Date().getFullYear();
     <div class="stack">
       <h2 class="site-footer__title">Seguinos</h2>
       {site.redes.map((r) => <a href={r.url || '#'} target="_blank" rel="noopener">{r.nombre}</a>)}
+      <a href={site.rincon.url || "#"} target="_blank" rel="noopener">{site.rincon.nombre}</a>
       <a href="/politicas">Políticas del salón</a>
     </div>
   </div>
