@@ -21,14 +21,14 @@ const numero = site.whatsapp.numero.replace(/\D/g, '');
       <p class="eyebrow">Turnos</p>
       <h1>Pedí tu <span class="script">turno</span></h1>
       <p class="lead">Completá estos datos y se arma el mensaje para enviarle a Valeria por WhatsApp. Ella te confirma el día y el horario.</p>
-      <ul class="booking__info muted small">
-        <li>{site.horarios.dias}: mañana {site.horarios.manana} y tarde {site.horarios.tarde}.</li>
-        <li>Pedí tu turno con al menos {site.anticipacionMinimaHoras} horas de anticipación.</li>
-        <li>{site.horarios.nota}</li>
-        <li>{site.domicilio}</li>
-      </ul>
     </div>
 
+    <ul class="booking__info muted small">
+      <li>{site.horarios.dias}: mañana {site.horarios.manana} y tarde {site.horarios.tarde}.</li>
+      <li>Pedí tu turno con al menos {site.anticipacionMinimaHoras} horas de anticipación.</li>
+      <li>{site.horarios.nota}</li>
+      <li>{site.domicilio}</li>
+    </ul>
     <div class="booking__panel">
       <!-- Paso 1: formulario -->
       <form id="booking-form" class="stack form" novalidate data-numero={numero}>
@@ -102,13 +102,16 @@ const numero = site.whatsapp.numero.replace(/\D/g, '');
 </Base>
 
 <style>
-  .booking { display: grid; gap: var(--s7); padding-block: var(--s8) var(--section); }
+  .booking { display: grid; gap: var(--s6); padding-block: var(--s6) var(--section); grid-template-areas: 'intro' 'panel' 'info'; }
+  .booking__intro { grid-area: intro; }
+  .booking__panel { grid-area: panel; }
+  .booking__info { grid-area: info; }
   .booking__intro { gap: var(--s5); }
   .booking__info { padding-left: 1.1em; display: grid; gap: var(--s2); }
   .booking__panel { background: var(--surface); border: 1px solid var(--line); padding: clamp(1.25rem, 0.8rem + 2vw, 2.5rem); }
   @media (min-width: 60rem) {
-    .booking { grid-template-columns: 1fr 1.1fr; gap: var(--s9); align-items: start; }
-    .booking__intro { position: sticky; top: 7rem; }
+    .booking { grid-template-columns: 1fr 1.1fr; grid-template-areas: 'intro panel' 'info panel'; grid-template-rows: auto 1fr; column-gap: var(--s9); row-gap: var(--s5); align-items: start; padding-top: var(--s8); }
+
   }
   .form { gap: var(--s5); }
   .choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s2); }

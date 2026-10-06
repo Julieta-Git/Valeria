@@ -35,7 +35,10 @@ const year = new Date().getFullYear();
   .site-footer { border-top: 1px solid var(--line); padding-block: var(--s8) var(--s6); }
   .site-footer__grid { display: grid; gap: var(--s7) var(--s6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
   .site-footer__title { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; letter-spacing: 0.04em; }
-  .site-footer .stack { gap: var(--s2); }
+  .site-footer .stack { gap: 0; }
+  .site-footer .stack > a:not(.btn) { display: inline-flex; align-items: center; min-height: 2.75rem; align-self: flex-start; }
+  .site-footer .stack > :global(.btn) { margin-block: var(--s2); }
+  .site-footer__title { margin-bottom: var(--s2); }
   .site-footer__bottom { margin-top: var(--s8); padding-top: var(--s5); border-top: 1px solid var(--line); }
   @media (max-width: 60rem) { .site-footer { padding-bottom: 7rem; } }
 </style>

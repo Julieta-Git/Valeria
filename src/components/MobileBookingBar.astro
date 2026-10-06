@@ -13,18 +13,25 @@ const { label = 'Reservar turno', href = '/reservar', detail } = Astro.props;
     .mbar {
       display: flex; align-items: center; gap: var(--s3);
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
-      padding: var(--s3) var(--gutter) calc(var(--s3) + env(safe-area-inset-bottom));
+      padding: var(--s2) var(--gutter) calc(var(--s2) + env(safe-area-inset-bottom));
       background: rgba(22, 18, 20, 0.97); border-top: 1px solid var(--line); box-shadow: var(--shadow);
       transform: translateY(110%); transition: transform 0.3s var(--ease);
     }
     .mbar.is-visible { transform: none; }
-    .mbar__detail { flex: 1; color: var(--text-soft); line-height: 1.3; }
-    .mbar__btn { flex: 1; }
+    .mbar__detail { flex: 1; min-width: 0; color: var(--text-soft); line-height: 1.3; }
+    .mbar__btn { flex: 1; min-width: 0; min-height: 2.875rem; white-space: normal; text-align: center; }
   }
 </style>
 <script>
+  // Si la página tiene un botón principal de reserva (data-hero-cta), la barra aparece recién
+  // cuando ese botón sale de la pantalla. Si no, aparece después de bajar un poco.
   const bar = document.querySelector('[data-mbar]');
-  const onScroll = () => bar?.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.6);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  const hero = document.querySelector('[data-hero-cta]');
+  if (bar && hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => bar.classList.toggle('is-visible', !e.isIntersecting && e.boundingClientRect.top < 0)).observe(hero);
+  } else if (bar) {
+    const onScroll = () => bar.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.4);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 </script>

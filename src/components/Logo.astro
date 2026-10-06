@@ -12,5 +12,6 @@ const width = size === 'l' ? 200 : 96;
 <style>
   .logo { display: inline-block; line-height: 0; }
   .logo img { width: auto; height: auto; }
+  @media (max-width: 40rem) { .logo--m img { width: 72px; } }
   .logo:hover img { filter: brightness(1.12); }
 </style>

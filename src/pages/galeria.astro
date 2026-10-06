@@ -34,7 +34,8 @@ const usadas = galeria.categorias.filter((c) => galeria.items.some((i) => i.cate
   .head { padding-block: var(--s8) var(--s6); gap: var(--s5); }
   .gal { display: grid; gap: var(--s5) var(--s3); grid-template-columns: repeat(2, 1fr); padding-bottom: var(--section); }
   .gal__item--wide { grid-column: 1 / -1; }
-  .gal__fig { margin: 0; display: flex; flex-direction: column; gap: var(--s2); }
+  .gal__fig { margin: 0; display: flex; flex-direction: column; gap: var(--s1); }
+  .gal__fig figcaption a { display: inline-block; padding-block: 0.7rem; }
   .gal__item[hidden] { display: none; }
   @media (min-width: 48rem) { .gal { grid-template-columns: repeat(3, 1fr); } .gal__item--wide { grid-column: span 2; } }
   @media (min-width: 72rem) { .gal { grid-template-columns: repeat(4, 1fr); } }

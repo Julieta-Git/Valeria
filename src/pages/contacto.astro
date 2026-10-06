@@ -34,6 +34,7 @@ import WhatsAppButton from '../components/WhatsAppButton.astro';
   .data > div { display: grid; grid-template-columns: 9rem 1fr; gap: var(--s4); padding-block: var(--s4); border-bottom: 1px solid var(--line); }
   .data dt { color: var(--text-soft); font-size: var(--fs-small); }
   .data dd { margin: 0; }
+  .data dd > a:not(.btn) { display: inline-flex; align-items: center; min-height: 2.75rem; }
   @media (max-width: 30rem) { .data > div { grid-template-columns: 1fr; gap: var(--s1); } }
   .ctas { display: flex; flex-wrap: wrap; gap: var(--s3); }
   .map { min-height: 22rem; display: flex; align-items: center; justify-content: center; text-align: center; padding: var(--s6); background: var(--placeholder); color: var(--text-soft); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }

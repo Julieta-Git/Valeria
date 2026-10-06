@@ -157,8 +157,8 @@ const schema = [
 </Base>
 
 <style>
-  .crumbs { padding-top: var(--s5); }
-  .crumbs a { color: var(--text-soft); }
+  .crumbs { padding-top: var(--s3); }
+  .crumbs a { color: var(--text-soft); display: inline-flex; align-items: center; min-height: 2.75rem; }
   .svc { display: grid; gap: var(--s7); padding-block: var(--s6) var(--section); }
   .svc__info { gap: var(--s5); }
   .svc__info h1 { font-size: var(--fs-display); }
@@ -167,7 +167,13 @@ const schema = [
     .svc { grid-template-columns: 1fr 1fr; gap: var(--s9); align-items: start; }
     .svc__media { position: sticky; top: 6rem; }
   }
-  @media (max-width: 40rem) { .svc__media { margin-inline: calc(var(--gutter) * -1); } .svc__ctas .btn { flex: 1 1 100%; } }
+  @media (max-width: 40rem) {
+    /* En celular primero nombre, precio y botón; la foto va después */
+    .svc { padding-top: var(--s3); gap: var(--s6); }
+    .svc__info { order: -1; gap: var(--s4); }
+    .svc__media :global(.ph) { aspect-ratio: 4 / 3 !important; }
+    .svc__ctas .btn { flex: 1 1 100%; }
+  }
 
   .facts { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; border-block: 1px solid var(--line); }
   .facts > div { padding: var(--s4) var(--s3) var(--s4) 0; }

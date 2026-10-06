@@ -22,7 +22,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
       <a href="/reservar" class="btn btn--primary btn--small site-nav__cta">Reservar turno</a>
     </nav>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">
-      <span class="visually-hidden">Abrir menú</span>
+      <span class="menu-btn__label">Menú</span>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M4 7h16" /><path class="l2" d="M4 12h16" /><path class="l3" d="M4 17h16" /></svg>
     </button>
   </div>
@@ -33,17 +33,18 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
      quedaría atrapado dentro del header y no se podría usar. */
   .site-header { position: sticky; top: 0; z-index: 40; border-bottom: 1px solid var(--line); }
   .site-header::before { content: ''; position: absolute; inset: 0; z-index: -1; background: rgba(13, 11, 12, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-  .site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--s5); height: 5.25rem; }
+  .site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--s5); height: var(--header-h); }
   .site-nav { display: flex; align-items: center; gap: var(--s6); }
   .site-nav ul { display: flex; gap: var(--s5); list-style: none; margin: 0; padding: 0; }
   .site-nav ul a { text-decoration: none; font-size: 0.9375rem; padding-block: var(--s2); }
   .site-nav ul a[aria-current='page'] { text-decoration: underline; text-decoration-color: var(--accent-text); text-decoration-thickness: 2px; text-underline-offset: 0.5em; }
-  .menu-btn { display: none; width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; background: transparent; color: var(--text); border: 1px solid var(--line); border-radius: var(--radius-s); cursor: pointer; }
+  .menu-btn { display: none; min-height: 2.75rem; padding: 0 var(--s3) 0 var(--s4); gap: var(--s2); align-items: center; justify-content: center; background: transparent; color: var(--text); border: 1px solid var(--line); border-radius: var(--radius-pill); font: inherit; font-size: 0.9375rem; font-weight: 500; cursor: pointer; transition: border-color 0.2s var(--ease); }
+  .menu-btn:hover, .menu-btn[aria-expanded='true'] { border-color: var(--accent-text); }
 
   @media (max-width: 60rem) {
     .menu-btn { display: inline-flex; }
     .site-nav {
-      display: none; position: fixed; inset: calc(5.25rem + 1px) 0 0 0; z-index: 39;
+      display: none; position: fixed; inset: calc(var(--header-h) + 1px) 0 0 0; z-index: 39;
       flex-direction: column; align-items: stretch; gap: var(--s6);
       background: var(--bg); padding: var(--s6) var(--gutter); overflow-y: auto;
     }
@@ -71,13 +72,13 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
 <script>
   const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
   const nav = document.getElementById('site-nav');
-  const label = btn?.querySelector('.visually-hidden');
+  const label = btn?.querySelector('.menu-btn__label');
   function setOpen(open: boolean) {
     if (!btn || !nav) return;
     btn.setAttribute('aria-expanded', String(open));
     nav.classList.toggle('is-open', open);
     document.body.style.overflow = open ? 'hidden' : '';
-    if (label) label.textContent = open ? 'Cerrar menú' : 'Abrir menú';
+    if (label) label.textContent = open ? 'Cerrar' : 'Menú';
   }
   btn?.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
   document.addEventListener('keydown', (e) => {

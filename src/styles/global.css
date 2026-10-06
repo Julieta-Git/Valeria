@@ -38,7 +38,8 @@
   /* Espaciado (escala de 4 px) */
   --s1: 0.25rem; --s2: 0.5rem; --s3: 0.75rem; --s4: 1rem; --s5: 1.5rem;
   --s6: 2rem; --s7: 3rem; --s8: 4rem; --s9: 6rem; --s10: 8rem;
-  --section: clamp(4rem, 2.5rem + 6vw, 8rem);
+  --section: clamp(3rem, 1.75rem + 6vw, 8rem);
+  --header-h: 5.25rem;
   --gutter: clamp(1.25rem, 0.8rem + 2vw, 2rem);
   --container: 75rem;
 
@@ -108,9 +109,12 @@ html { scrollbar-color: #3a3236 var(--bg); }
 .section { padding-block: var(--section); }
 .section--surface { background: var(--surface); }
 .stack { display: flex; flex-direction: column; gap: var(--s4); }
+@media (max-width: 40rem) {
+  :root { --header-h: 4.25rem; }
+}
 .section-head {
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
-  gap: var(--s4) var(--s6); margin-bottom: var(--s7);
+  gap: var(--s4) var(--s6); margin-bottom: clamp(1.75rem, 1rem + 3vw, 3rem);
 }
 .section-head p { color: var(--text-soft); max-width: 36em; margin-top: var(--s3); }
 .grid {
@@ -172,7 +176,8 @@ html { scrollbar-color: #3a3236 var(--bg); }
 .btn--block { width: 100%; }
 .btn--small { min-height: 2.75rem; padding: 0 var(--s5); font-size: 0.9375rem; }
 .btn[disabled] { opacity: 1; background: var(--surface-2); color: var(--text-soft); cursor: not-allowed; }
-.link-arrow { font-weight: 600; text-decoration: underline; }
+/* Links de texto: área tocable de al menos 44 px de alto sin cambiar cómo se ven */
+.link-arrow { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 600; text-decoration: underline; }
 .link-arrow::after { content: ' →'; }
 
 /* --- Chips / filtros ------------------------------------------------------- */
