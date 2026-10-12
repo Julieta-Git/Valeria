@@ -46,7 +46,7 @@
   "rincon": {
     "nombre": "El Rincón de Luciérnaga",
     "descripcion": "Dentro del salón: anteojos, bijouterie, carteras, gorras y más accesorios.",
-    "url": "",
-    "_urlAyuda": "Poner acá el link de la web del Rincón cuando esté publicada."
+    "url": "https://el-rincon-de-luciernaga.netlify.app/",
+    "_urlAyuda": "Link de la web del Rincón. Si se deja vacío, el sitio no muestra el enlace."
   }
 }

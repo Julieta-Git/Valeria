@@ -23,8 +23,8 @@ const year = new Date().getFullYear();
     </div>
     <div class="stack">
       <h2 class="site-footer__title">Seguinos</h2>
-      {site.redes.map((r) => <a href={r.url || '#'} target="_blank" rel="noopener">{r.nombre}</a>)}
-      <a href={site.rincon.url || "#"} target="_blank" rel="noopener">{site.rincon.nombre}</a>
+      {site.redes.filter((r) => r.url).map((r) => <a href={r.url} target="_blank" rel="noopener">{r.nombre}</a>)}
+      {site.rincon.url && <a href={site.rincon.url} target="_blank" rel="noopener">{site.rincon.nombre}</a>}
       <a href="/politicas">Políticas del salón</a>
     </div>
   </div>

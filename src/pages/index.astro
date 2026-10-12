@@ -10,8 +10,10 @@ import { enlaceReserva } from '../lib/whatsapp';
 
 const destacados = (await getCollection('servicios', (s) => s.data.destacado)).sort((a, b) => a.data.orden - b.data.orden);
 const consejos = (await getCollection('consejos')).sort((a, b) => +b.data.fecha - +a.data.fecha).slice(0, 3);
-const fotos = galeria.items.filter((g) => g.tipo !== 'antes-despues').slice(0, 6);
-const antesDespues = galeria.items.find((g) => g.tipo === 'antes-despues');
+// Una foto con persona sin autorización nunca se publica.
+const publicables = galeria.items.filter((g) => !g.foto || g.autorizada);
+const fotos = publicables.filter((g) => g.tipo !== 'antes-despues').slice(0, 6);
+const antesDespues = publicables.find((g) => g.tipo === 'antes-despues');
 const instagram = site.redes.find((r) => r.nombre === 'Instagram');
 
 const diferenciales = [
@@ -28,10 +30,9 @@ const diferenciales = [
   <section class="hero">
     <div class="container hero__grid">
       <div class="hero__text stack">
-        <p class="eyebrow">Peluquería y belleza · {site.ciudad}</p>
         <h1 class="hero__title">Tu color, <span class="script">tu estilo</span></h1>
         <p class="lead">
-          Hola, soy Valeria, peluquera con {site.valeria.experiencia} de experiencia, colorista especializada. Color, corte, alisados, tratamientos y belleza con atención personalizada.
+          Hola, soy Valeria, peluquera en {site.ciudad} con {site.valeria.experiencia} de experiencia y colorista especializada. Color, corte, alisados, tratamientos y belleza con atención personalizada.
         </p>
         <div class="hero__ctas" data-hero-cta>
           <a href="/reservar" class="btn btn--primary">Reservar turno</a>
@@ -52,7 +53,6 @@ const diferenciales = [
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Servicios</p>
           <h2 id="destacados">Lo que más <span class="script">piden</span></h2>
         </div>
         <a href="/servicios" class="link-arrow">Ver todos los servicios</a>
@@ -81,9 +81,8 @@ const diferenciales = [
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Galería</p>
           <h2 id="resultados">Resultados <span class="script">reales</span></h2>
-          <p>Trabajos hechos en el salón. Las fotos se publican con autorización de cada clienta.</p>
+          <p>Trabajos hechos en el salón. Las fotos se publican con autorización de cada persona.</p>
         </div>
         <a href="/galeria" class="link-arrow">Ver galería completa</a>
       </div>
@@ -99,7 +98,6 @@ const diferenciales = [
     <div class="container about">
       <Placeholder label="Retrato de Valeria en el salón" ratio="4 / 5" />
       <div class="stack about__text">
-        <p class="eyebrow">Sobre Valeria</p>
         <h2 id="sobre"><span class="pendiente">Título a confirmar con Valeria</span></h2>
         <p class="lead">
           <span class="pendiente">Texto de presentación a confirmar con Valeria.</span>
@@ -121,7 +119,6 @@ const diferenciales = [
       <div class="grid grid--3">
         {diferenciales.map((d, i) => (
           <div class="diff reveal">
-            <span class="diff__n">0{i + 1}</span>
             <h3>{d.titulo}</h3>
             <p class="muted">{d.texto}</p>
           </div>
@@ -135,7 +132,6 @@ const diferenciales = [
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Conocé tu cabello</p>
           <h2 id="consejos">Consejos para cuidarlo entre turnos</h2>
         </div>
         <a href="/consejos" class="link-arrow">Ver todos los consejos</a>
@@ -172,26 +168,30 @@ const diferenciales = [
     </div>
   </section>
 
-  <!-- El Rincón de Luciérnaga -->
+  <!-- El Rincón de Luciérnaga: el bloque es un enlace solo cuando hay URL cargada en site.json -->
   <section class="section rincon-wrap" aria-labelledby="rincon">
     <div class="container">
-      <a class="rincon reveal" href={site.rincon.url || '#'} target={site.rincon.url ? '_blank' : undefined} rel="noopener">
-        <div class="stack rincon__text">
-          <p class="small muted">También en el salón</p>
-          <h2 id="rincon"><span class="script">{site.rincon.nombre}</span></h2>
-          <p class="muted">{site.rincon.descripcion}</p>
-          <span class="link-arrow">Ver la tienda</span>
-          {!site.rincon.url && <span class="pendiente small">Falta el link de la web del Rincón</span>}
-        </div>
-        <Placeholder label="Rincón de Luciérnaga: accesorios en el salón" ratio="4 / 3" class="rincon__img" />
-      </a>
+      {(() => {
+        const Tag = site.rincon.url ? 'a' : 'div';
+        return (
+          <Tag class="rincon reveal" {...(site.rincon.url ? { href: site.rincon.url, target: '_blank', rel: 'noopener' } : {})}>
+            <div class="stack rincon__text">
+              <p class="small muted">También en el salón</p>
+              <h2 id="rincon"><span class="script">{site.rincon.nombre}</span></h2>
+              <p class="muted">{site.rincon.descripcion}</p>
+              {site.rincon.url ? <span class="link-arrow">Ver la tienda</span> : <span class="pendiente small">Falta el link de la web del Rincón</span>}
+            </div>
+            <Placeholder label="Rincón de Luciérnaga: accesorios en el salón" ratio="4 / 3" class="rincon__img" />
+          </Tag>
+        );
+      })()}
     </div>
   </section>
 
   <!-- CTA final -->
   <section class="final-cta">
     <div class="container stack final-cta__inner">
-      <h2>¿Lista para tu <span class="script">próximo cambio</span>?</h2>
+      <h2>¿Te animás a tu <span class="script">próximo cambio</span>?</h2>
       <p class="lead">Elegí el servicio y el día, y Valeria te confirma por WhatsApp.</p>
       <a href={enlaceReserva()} class="btn btn--primary">Reservar turno</a>
     </div>
@@ -251,7 +251,6 @@ const diferenciales = [
 
   .section-title { margin-bottom: var(--s7); }
   .diff { border-top: 1px solid var(--text); padding-top: var(--s5); display: flex; flex-direction: column; gap: var(--s3); }
-  .diff__n { font-family: var(--font-display); color: var(--accent-text); }
 
   .tip { display: flex; flex-direction: column; gap: var(--s3); padding: var(--s6); border: 1px solid var(--line); background: var(--bg); text-decoration: none; color: var(--text); transition: border-color 0.2s var(--ease); }
   .tip:hover { border-color: var(--accent-text); color: var(--text); }

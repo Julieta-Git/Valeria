@@ -6,7 +6,6 @@ import WhatsAppButton from '../components/WhatsAppButton.astro';
 <Base title="Contacto y ubicación" description={`Dirección, horarios y WhatsApp de ${site.nombre} en ${site.ciudad}.`}>
   <section class="container contact">
     <div class="stack">
-      <p class="eyebrow">Contacto</p>
       <h1>Vení a <span class="script">conocernos</span></h1>
       <dl class="data">
         <div><dt>Dirección</dt><dd>{site.direccion}, {site.ciudad}</dd></div>
@@ -21,9 +20,15 @@ import WhatsAppButton from '../components/WhatsAppButton.astro';
         {site.mapsUrl && <a href={site.mapsUrl} class="btn btn--ghost" target="_blank" rel="noopener">Abrir en Google Maps</a>}
       </div>
     </div>
-    <div class="map" role="img" aria-label="Mapa pendiente">
-      <span>Mapa · se agrega cuando tengamos el link de Google Maps</span>
-    </div>
+    {site.mapsUrl ? (
+      <a class="map" href={site.mapsUrl} target="_blank" rel="noopener">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" /></svg>
+        <span class="map__place">{site.direccion}, {site.ciudad}</span>
+        <span class="link-arrow">Ver la ubicación en Google Maps</span>
+      </a>
+    ) : (
+      <div class="map map--pendiente"><span class="pendiente">Falta el link de Google Maps en site.json</span></div>
+    )}
   </section>
 </Base>
 <style>
@@ -37,5 +42,13 @@ import WhatsAppButton from '../components/WhatsAppButton.astro';
   .data dd > a:not(.btn) { display: inline-flex; align-items: center; min-height: 2.75rem; }
   @media (max-width: 30rem) { .data > div { grid-template-columns: 1fr; gap: var(--s1); } }
   .ctas { display: flex; flex-wrap: wrap; gap: var(--s3); }
-  .map { min-height: 22rem; display: flex; align-items: center; justify-content: center; text-align: center; padding: var(--s6); background: var(--placeholder); color: var(--text-soft); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .map {
+    min-height: 22rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s3);
+    text-align: center; padding: var(--s6); color: var(--text); text-decoration: none;
+    background: radial-gradient(circle at 50% 42%, var(--accent-glow), transparent 55%), var(--surface);
+    border: 1px solid var(--line); transition: border-color 0.2s var(--ease);
+  }
+  .map svg { color: var(--accent-text); }
+  .map__place { font-family: var(--font-display); font-size: var(--fs-h3); }
+  a.map:hover { border-color: var(--accent-text); color: var(--text); }
 </style>

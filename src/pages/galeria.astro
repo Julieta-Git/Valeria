@@ -5,13 +5,14 @@ import BeforeAfter from '../components/BeforeAfter.astro';
 import galeria from '../data/galeria.json';
 import site from '../data/site.json';
 
-const usadas = galeria.categorias.filter((c) => galeria.items.some((i) => i.categoria === c));
+// Una foto con persona sin autorización nunca se publica.
+const items = galeria.items.filter((i) => !i.foto || i.autorizada);
+const usadas = galeria.categorias.filter((c) => items.some((i) => i.categoria === c));
 ---
 <Base title="Galería de trabajos" description={`Trabajos reales de ${site.nombre}: color fantasía, balayage, alisados, peinados, maquillaje, cejas y pestañas.`}>
   <section class="container head stack">
-    <p class="eyebrow">Galería</p>
     <h1>Trabajos <span class="script">reales</span></h1>
-    <p class="lead">Resultados hechos en el salón. Cada foto se publica con autorización de la clienta.</p>
+    <p class="lead">Resultados hechos en el salón. Cada foto se publica con autorización de la persona que aparece.</p>
     <div class="chips chips--scroll" role="group" aria-label="Filtrar por categoría" data-filtros>
       <button type="button" class="chip" aria-pressed="true" data-cat="todas">Todas</button>
       {usadas.map((c) => <button type="button" class="chip" aria-pressed="false" data-cat={c}>{c}</button>)}
@@ -20,7 +21,7 @@ const usadas = galeria.categorias.filter((c) => galeria.items.some((i) => i.cate
   </section>
 
   <section class="container gal" data-galeria>
-    {galeria.items.map((i) => (
+    {items.map((i) => (
       <div class:list={['gal__item', { 'gal__item--wide': i.tipo === 'antes-despues' }]} data-cat={i.categoria}>
         {i.tipo === 'antes-despues'
           ? <BeforeAfter descripcion={i.descripcion} servicio={i.servicio} />

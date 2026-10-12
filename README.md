@@ -37,7 +37,10 @@ npm run preview  # muestra /dist tal como quedaría publicada
 - Los artículos con `revisado: false` muestran "Borrador: falta la revisión de Valeria".
 - **WhatsApp:** cargar el número en `site.json` → `whatsapp.numero` con formato `549` + código de área + número, sin espacios. Mientras esté vacío, WhatsApp abre el mensaje para elegir el contacto.
 - **Fotos:** hoy son bloques grises (`Placeholder`). Cuando estén, guardarlas en `src/assets/` y reemplazar el `<Placeholder>` por `<Image>` de `astro:assets` (genera WebP y tamaños automáticos).
-- **Logo:** hoy es el nombre escrito con la tipografía manuscrita (`src/components/Logo.astro`). Reemplazar por el SVG cuando llegue.
+- **Logo:** hoy es un PNG (`src/assets/brand/logo-valeria.png`). Reemplazarlo por el SVG o PNG sin fondo cuando llegue.
+- **Fotos de la galería:** en `src/data/galeria.json`, una foto con `autorizada: false` no se publica aunque tenga archivo cargado.
+- **El Rincón de Luciérnaga:** el link está en `site.json` → `rincon.url`. Si se deja vacío, el sitio deja de mostrar el enlace.
+- **Carpeta `valeria-logo-update/`:** es una copia vieja de una parte del proyecto, ya integrada en `src/`. Se puede borrar.
 - **Dominio:** cambiar `site` en `astro.config.mjs` y la línea `Sitemap:` de `public/robots.txt`.
 
 ## Publicar
