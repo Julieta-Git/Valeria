@@ -2,9 +2,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// TODO: reemplazar por el dominio definitivo cuando esté comprado.
+// Dirección pública del sitio (canonical, sitemap, vistas previas al compartir).
+// Cuando se compre el dominio propio, cambiarla acá y en public/robots.txt.
 export default defineConfig({
-  site: 'https://www.valeriasalon.com.ar',
+  site: 'https://valeria-salon-de-belleza.netlify.app',
   trailingSlash: 'ignore',
   integrations: [sitemap()],
 });

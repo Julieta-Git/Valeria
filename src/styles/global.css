@@ -214,6 +214,8 @@ html { scrollbar-color: #3a3236 var(--bg); }
   padding: var(--s5); width: 100%; overflow: hidden;
 }
 .ph span { max-width: 22ch; }
+/* Foto real (componente Foto): ocupa el mismo lugar que el bloque pendiente. */
+.foto { display: block; width: 100%; height: auto; object-fit: cover; background: var(--placeholder); }
 .pendiente {
   display: inline; background: rgba(255, 196, 0, 0.1); color: #ffd666;
   border: 1px dashed rgba(255, 214, 102, 0.6); border-radius: var(--radius-s);

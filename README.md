@@ -20,6 +20,7 @@ npm run preview  # muestra /dist tal como quedaría publicada
 | Nombre, WhatsApp, dirección, horarios, redes, medios de pago | `src/data/site.json` |
 | Servicios (texto, duración, precio, variantes, destacados) | `src/content/servicios/*.md` (un archivo por servicio) |
 | Artículos de "Conocé tu cabello" | `src/content/consejos/*.md` |
+| Fotos | `src/assets/fotos/` (ver `LEEME.md` adentro) |
 | Galería (trabajos y categorías) | `src/data/galeria.json` |
 | Preguntas y reglas de la guía "¿Qué tratamiento necesito?" | `src/data/guia.json` |
 | Colores, tipografías, espaciados | `src/styles/global.css` (variables al principio) |
@@ -36,12 +37,11 @@ npm run preview  # muestra /dist tal como quedaría publicada
 - Los textos con recuadro amarillo punteado son **pendientes** (`<span class="pendiente">`). Para ocultarlos antes de publicar: `"mostrarPendientes": false` en `site.json`.
 - Los artículos con `revisado: false` muestran "Borrador: falta la revisión de Valeria".
 - **WhatsApp:** cargar el número en `site.json` → `whatsapp.numero` con formato `549` + código de área + número, sin espacios. Mientras esté vacío, WhatsApp abre el mensaje para elegir el contacto.
-- **Fotos:** hoy son bloques grises (`Placeholder`). Cuando estén, guardarlas en `src/assets/` y reemplazar el `<Placeholder>` por `<Image>` de `astro:assets` (genera WebP y tamaños automáticos).
+- **Fotos:** se cargan guardando el archivo con el nombre indicado en `src/assets/fotos/` (lista completa en `src/assets/fotos/LEEME.md`). Mientras falte, se ve el bloque gris "Foto pendiente". Astro las optimiza solas al publicar.
 - **Logo:** hoy es un PNG (`src/assets/brand/logo-valeria.png`). Reemplazarlo por el SVG o PNG sin fondo cuando llegue.
-- **Fotos de la galería:** en `src/data/galeria.json`, una foto con `autorizada: false` no se publica aunque tenga archivo cargado.
+- **Fotos de la galería:** archivo en `src/assets/fotos/galeria/` y su nombre en `src/data/galeria.json` (`foto`, y `antes` si es antes/después). Una foto con `autorizada: false` no se publica aunque tenga archivo cargado.
 - **El Rincón de Luciérnaga:** el link está en `site.json` → `rincon.url`. Si se deja vacío, el sitio deja de mostrar el enlace.
-- **Carpeta `valeria-logo-update/`:** es una copia vieja de una parte del proyecto, ya integrada en `src/`. Se puede borrar.
-- **Dominio:** cambiar `site` en `astro.config.mjs` y la línea `Sitemap:` de `public/robots.txt`.
+- **Dominio:** hoy la web se presenta como `valeria-salon-de-belleza.netlify.app`. Cuando haya dominio propio, cambiar `site` en `astro.config.mjs` y la línea `Sitemap:` de `public/robots.txt`.
 
 ## Publicar
 

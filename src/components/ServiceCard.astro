@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import Placeholder from './Placeholder.astro';
+import Foto from './Foto.astro';
 import { precioDesde } from '../lib/format';
 interface Props { servicio: CollectionEntry<'servicios'>; ratio?: string; headingLevel?: 'h2' | 'h3' }
 const { servicio, ratio = '4 / 5', headingLevel = 'h3' } = Astro.props;
@@ -8,7 +8,7 @@ const d = servicio.data;
 const Heading = headingLevel;
 ---
 <a href={`/servicios/${servicio.id}`} class="card reveal">
-  <div class="card__media"><Placeholder label={d.nombre} ratio={ratio} /></div>
+  <div class="card__media"><Foto src={`servicios/${servicio.id}`} label={d.nombre} alt={d.foto} ratio={ratio} sizes="(min-width: 60rem) 25vw, 70vw" /></div>
   <Heading class="card__title">{d.nombre}</Heading>
   <p class="card__desc">{d.resumen}</p>
   <p class="card__meta">

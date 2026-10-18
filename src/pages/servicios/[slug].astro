@@ -1,7 +1,7 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Placeholder from '../../components/Placeholder.astro';
+import Foto from '../../components/Foto.astro';
 import BeforeAfter from '../../components/BeforeAfter.astro';
 import site from '../../data/site.json';
 import galeria from '../../data/galeria.json';
@@ -60,7 +60,7 @@ const schema = [
 
   <section class="container svc">
     <div class="svc__media">
-      <Placeholder label={d.foto} ratio="4 / 5" />
+      <Foto src={`servicios/${servicio.id}`} label={d.foto} ratio="4 / 5" sizes="(min-width: 60rem) 45vw, 100vw" eager />
     </div>
     <div class="svc__info stack">
       <p class="tag">{categorias[d.categoria]}</p>
@@ -108,8 +108,8 @@ const schema = [
           <a href="/galeria" class="link-arrow">Ver toda la galería</a>
         </div>
         <div class="works">
-          {ba && <div class="works__ba"><BeforeAfter descripcion={ba.descripcion} /></div>}
-          {fotos.map((f) => <Placeholder label={f.descripcion} />)}
+          {ba && <div class="works__ba"><BeforeAfter descripcion={ba.descripcion} antes={ba.antes} despues={ba.foto} /></div>}
+          {fotos.map((f) => <Foto src={f.foto && `galeria/${f.foto}`} label={f.descripcion} />)}
         </div>
       </div>
     </section>
@@ -138,7 +138,7 @@ const schema = [
         <div class="grid grid--3">
           {relacionados.map((r) => r && (
             <a href={`/servicios/${r.id}`} class="rel">
-              <Placeholder label={r.data.nombre} ratio="1 / 1" class="rel__img" />
+              <Foto src={`servicios/${r.id}`} label={r.data.nombre} alt="" ratio="1 / 1" class="rel__img" sizes="8rem" />
               <span><span class="rel__name">{r.data.nombre}</span><span class="small muted">{precioDesde(r.data.precioDesde)}</span></span>
             </a>
           ))}
@@ -171,7 +171,7 @@ const schema = [
     /* En celular primero nombre, precio y botón; la foto va después */
     .svc { padding-top: var(--s3); gap: var(--s6); }
     .svc__info { order: -1; gap: var(--s4); }
-    .svc__media :global(.ph) { aspect-ratio: 4 / 3 !important; }
+    .svc__media :global(.ph), .svc__media :global(.foto) { aspect-ratio: 4 / 3 !important; }
     .svc__ctas .btn { flex: 1 1 100%; }
   }
 

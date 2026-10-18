@@ -1,12 +1,14 @@
 ---
-import Placeholder from './Placeholder.astro';
-interface Props { descripcion: string; servicio?: string | null; ratio?: string }
-const { descripcion, servicio, ratio = '4 / 5' } = Astro.props;
+import Foto from './Foto.astro';
+// antes / despues: nombre del archivo en src/assets/fotos/galeria/ (o null mientras no esté).
+interface Props { descripcion: string; servicio?: string | null; ratio?: string; antes?: string | null; despues?: string | null }
+const { descripcion, servicio, ratio = '4 / 5', antes, despues } = Astro.props;
+const ruta = (f?: string | null) => (f ? `galeria/${f}` : null);
 ---
 <figure class="ba-fig">
   <div class="ba">
-    <Placeholder label="Antes" ratio={ratio} />
-    <Placeholder label="Después" ratio={ratio} />
+    <Foto src={ruta(antes)} label="Antes" alt={`${descripcion}: antes`} ratio={ratio} sizes="(min-width: 60rem) 25vw, 50vw" />
+    <Foto src={ruta(despues)} label="Después" alt={`${descripcion}: después`} ratio={ratio} sizes="(min-width: 60rem) 25vw, 50vw" />
     <span class="ba__label ba__label--before">Antes</span>
     <span class="ba__label ba__label--after">Después</span>
   </div>

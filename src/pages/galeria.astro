@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Placeholder from '../components/Placeholder.astro';
+import Foto from '../components/Foto.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
 import galeria from '../data/galeria.json';
 import site from '../data/site.json';
@@ -24,8 +24,8 @@ const usadas = galeria.categorias.filter((c) => items.some((i) => i.categoria ==
     {items.map((i) => (
       <div class:list={['gal__item', { 'gal__item--wide': i.tipo === 'antes-despues' }]} data-cat={i.categoria}>
         {i.tipo === 'antes-despues'
-          ? <BeforeAfter descripcion={i.descripcion} servicio={i.servicio} />
-          : <figure class="gal__fig"><Placeholder label={i.descripcion} /><figcaption class="small muted">{i.categoria}{i.servicio && <> · <a href={`/servicios/${i.servicio}`}>ver servicio</a></>}</figcaption></figure>}
+          ? <BeforeAfter descripcion={i.descripcion} servicio={i.servicio} antes={i.antes} despues={i.foto} />
+          : <figure class="gal__fig"><Foto src={i.foto && `galeria/${i.foto}`} label={i.descripcion} sizes="(min-width: 72rem) 25vw, (min-width: 48rem) 33vw, 50vw" /><figcaption class="small muted">{i.categoria}{i.servicio && <> · <a href={`/servicios/${i.servicio}`}>ver servicio</a></>}</figcaption></figure>}
       </div>
     ))}
   </section>

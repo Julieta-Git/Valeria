@@ -1,0 +1,49 @@
+---
+/**
+ * Foto real o, si todavía no está, el bloque gris de "Foto pendiente".
+ *
+ * Para cargar una foto alcanza con guardarla en src/assets/fotos/ con el
+ * nombre que corresponde (ver src/assets/fotos/LEEME.md). Ejemplo:
+ *   <Foto src="inicio/hero" label="..." />  →  src/assets/fotos/inicio/hero.jpg
+ * Sirve cualquier extensión (.jpg, .jpeg, .png, .webp, .avif). Astro la
+ * convierte a WebP y genera tamaños para celular y compu al hacer el build.
+ */
+import { Image } from 'astro:assets';
+import Placeholder from './Placeholder.astro';
+import { buscarFoto } from '../lib/fotos';
+
+interface Props {
+  src?: string | null; // ruta dentro de src/assets/fotos/, sin extensión
+  label: string; // qué foto va (se usa como texto alternativo si no hay alt)
+  alt?: string;
+  ratio?: string; // ej.: "4 / 5"
+  class?: string;
+  sizes?: string;
+  eager?: boolean; // true solo para la foto principal visible al cargar
+}
+
+const {
+  src,
+  label,
+  alt,
+  ratio = '4 / 5',
+  class: className = '',
+  sizes = '(min-width: 60rem) 33vw, 50vw',
+  eager = false,
+} = Astro.props;
+const imagen = buscarFoto(src);
+---
+{imagen ? (
+  <Image
+    src={imagen}
+    alt={alt ?? label}
+    widths={[400, 700, 1000, 1400].filter((w) => w < imagen.width).concat(Math.min(imagen.width, 1600))}
+    sizes={sizes}
+    class={`foto ${className}`}
+    style={`aspect-ratio: ${ratio}`}
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : undefined}
+  />
+) : (
+  <Placeholder label={label} ratio={ratio} class={className} />
+)}

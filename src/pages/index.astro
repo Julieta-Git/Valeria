@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ServiceCard from '../components/ServiceCard.astro';
-import Placeholder from '../components/Placeholder.astro';
+import Foto from '../components/Foto.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
 import site from '../data/site.json';
 import galeria from '../data/galeria.json';
@@ -24,7 +24,7 @@ const diferenciales = [
 ---
 <Base
   title={`${site.nombre} · Colorista y peluquería en ${site.ciudad}`}
-  description={`${site.descripcion} Pedí tu turno por WhatsApp.`}
+  description={`Peluquería y colorista en ${site.ciudad}: color fantasía, balayage, alisados, cortes, tratamientos, pestañas y maquillaje. Pedí tu turno por WhatsApp.`}
 >
   <!-- Hero -->
   <section class="hero">
@@ -44,7 +44,7 @@ const diferenciales = [
         </div>
         <p class="small muted">{site.horarios.dias} · Mañana {site.horarios.manana} · Tarde {site.horarios.tarde}</p>
       </div>
-      <Placeholder label="Hero: color fantasía de alto impacto" ratio="4 / 5" class="hero__img" />
+      <Foto src="inicio/hero" label="Hero: color fantasía de alto impacto" alt="Trabajo de color fantasía hecho por Valeria" ratio="4 / 5" class="hero__img" sizes="(min-width: 60rem) 45vw, 100vw" eager />
     </div>
   </section>
 
@@ -87,8 +87,8 @@ const diferenciales = [
         <a href="/galeria" class="link-arrow">Ver galería completa</a>
       </div>
       <div class="results">
-        {antesDespues && <div class="results__ba reveal"><BeforeAfter descripcion={antesDespues.descripcion} servicio={antesDespues.servicio} /></div>}
-        {fotos.map((f) => <Placeholder label={f.descripcion} class="reveal" />)}
+        {antesDespues && <div class="results__ba reveal"><BeforeAfter descripcion={antesDespues.descripcion} servicio={antesDespues.servicio} antes={antesDespues.antes} despues={antesDespues.foto} /></div>}
+        {fotos.map((f) => <Foto src={f.foto && `galeria/${f.foto}`} label={f.descripcion} class="reveal" sizes="(min-width: 60rem) 25vw, 50vw" />)}
       </div>
     </div>
   </section>
@@ -96,7 +96,7 @@ const diferenciales = [
   <!-- Sobre Valeria -->
   <section class="section section--surface" aria-labelledby="sobre">
     <div class="container about">
-      <Placeholder label="Retrato de Valeria en el salón" ratio="4 / 5" />
+      <Foto src="valeria/retrato" label="Retrato de Valeria en el salón" alt="Valeria en su salón" ratio="4 / 5" sizes="(min-width: 60rem) 45vw, 100vw" />
       <div class="stack about__text">
         <h2 id="sobre"><span class="pendiente">Título a confirmar con Valeria</span></h2>
         <p class="lead">
@@ -161,7 +161,7 @@ const diferenciales = [
       <div class="ig">
         {[1, 2, 3, 4, 5, 6].map((n) => (
           <a href={instagram?.url} target="_blank" rel="noopener" class="ig__item" aria-label={`Ver publicación ${n} en Instagram`}>
-            <Placeholder label={`Publicación ${n}`} ratio="1 / 1" />
+            <Foto src={`instagram/${n}`} label={`Publicación ${n}`} alt="" ratio="1 / 1" sizes="(min-width: 60rem) 16vw, 33vw" />
           </a>
         ))}
       </div>
@@ -181,7 +181,7 @@ const diferenciales = [
               <p class="muted">{site.rincon.descripcion}</p>
               {site.rincon.url ? <span class="link-arrow">Ver la tienda</span> : <span class="pendiente small">Falta el link de la web del Rincón</span>}
             </div>
-            <Placeholder label="Rincón de Luciérnaga: accesorios en el salón" ratio="4 / 3" class="rincon__img" />
+            <Foto src="inicio/rincon" label="Rincón de Luciérnaga: accesorios en el salón" alt="Accesorios de El Rincón de Luciérnaga en el salón" ratio="4 / 3" class="rincon__img" sizes="(min-width: 48rem) 45vw, 100vw" />
           </Tag>
         );
       })()}
@@ -217,7 +217,7 @@ const diferenciales = [
     .hero__ctas .btn--primary { flex-basis: 100%; }
     .hero__grid :global(.hero__img) { aspect-ratio: 4 / 3 !important; }
     .results > :global(:nth-child(n + 6)) { display: none; }
-    .about :global(.ph) { aspect-ratio: 4 / 3 !important; }
+    .about :global(.ph), .about :global(.foto) { aspect-ratio: 4 / 3 !important; }
   }
 
   .section--tight { padding-block: var(--s8); }

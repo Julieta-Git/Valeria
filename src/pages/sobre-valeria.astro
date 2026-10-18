@@ -1,12 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import Placeholder from '../components/Placeholder.astro';
+import Foto from '../components/Foto.astro';
 import site from '../data/site.json';
 const v = site.valeria;
 ---
 <Base title="Sobre Valeria" description={`Valeria es ${v.titulo.toLowerCase()} con ${v.experiencia} de experiencia, especializada en ${v.especialidad.toLowerCase()}.`}>
   <section class="container about">
-    <Placeholder label="Retrato de Valeria (ella tiene una foto)" ratio="4 / 5" />
+    <Foto src="valeria/retrato" label="Retrato de Valeria (ella tiene una foto)" alt="Valeria en su salón" ratio="4 / 5" sizes="(min-width: 60rem) 45vw, 100vw" eager />
     <div class="stack about__text">
       <h1>Sobre <span class="script">Valeria</span></h1>
       <p><span class="pendiente">Título de presentación a confirmar con Valeria.</span></p>
@@ -33,9 +33,9 @@ const v = site.valeria;
 
   <section class="section container">
     <div class="photos">
-      <Placeholder label="Valeria trabajando con color" />
-      <Placeholder label="El salón" />
-      <Placeholder label="Detalle de trabajo" />
+      <Foto src="valeria/trabajando" label="Valeria trabajando con color" />
+      <Foto src="valeria/salon" label="El salón" />
+      <Foto src="valeria/detalle" label="Detalle de trabajo" />
     </div>
     <div class="cta">
       <a href="/reservar" class="btn btn--primary">Reservar turno</a>
