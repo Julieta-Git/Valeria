@@ -175,7 +175,7 @@ const diferenciales = [
           <Tag class="rincon reveal" {...(site.rincon.url ? { href: site.rincon.url, target: '_blank', rel: 'noopener' } : {})}>
             <div class="stack rincon__text">
               <p class="small muted">También en el salón</p>
-              <h2 id="rincon"><span class="script">{site.rincon.nombre}</span></h2>
+              <h2 id="rincon"><span class="script script--marca">{site.rincon.nombre}</span></h2>
               <p class="muted">{site.rincon.descripcion}</p>
               {site.rincon.url ? <span class="link-arrow">Ver la tienda</span> : <span class="pendiente small">Falta el link de la web del Rincón</span>}
             </div>
@@ -201,7 +201,6 @@ const diferenciales = [
   .hero__grid { display: grid; gap: var(--s7); align-items: center; grid-template-columns: 1fr; }
   .hero__text { gap: var(--s5); }
   .hero__title { font-size: var(--fs-display); line-height: 1; }
-  .hero__title .script { display: block; font-size: 1.3em; margin: 0.05em 0 0; }
   .hero__ctas { display: flex; flex-wrap: wrap; gap: var(--s3); }
   .hero__ctas .btn { padding-inline: var(--s5); }
   @media (min-width: 60rem) {

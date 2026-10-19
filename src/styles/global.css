@@ -122,7 +122,7 @@ html { scrollbar-color: #3a3236 var(--bg); }
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
   gap: var(--s4) var(--s6); margin-bottom: clamp(1.75rem, 1rem + 3vw, 3rem);
 }
-.section-head p { color: var(--text-soft); max-width: 36em; margin-top: var(--s3); }
+.section-head p { color: var(--text); max-width: 36em; margin-top: var(--s3); }
 .grid {
   display: grid; gap: var(--s6) var(--s5);
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
@@ -146,8 +146,12 @@ html { scrollbar-color: #3a3236 var(--bg); }
   .rail > * { scroll-snap-align: start; }
 }
 
-/* --- Tipografía de acento ----------------------------------------------- */
-.script {
+/* --- Palabra destacada en títulos ----------------------------------------
+   Misma tipografía y color que el resto del título (pedido de Julieta,
+   19/10/2026). La letra cursiva rosa queda solo para el nombre de
+   El Rincón de Luciérnaga, que es su marca. */
+.script { font: inherit; color: inherit; }
+.script--marca {
   font-family: var(--font-script);
   font-weight: 400;
   font-style: normal;
@@ -155,10 +159,11 @@ html { scrollbar-color: #3a3236 var(--bg); }
   letter-spacing: 0;
   line-height: 1;
   font-size: 1.12em;
-  margin-left: 0.1em;
 }
-.lead { font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem); color: var(--text-soft); max-width: 34em; }
+.lead { font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem); color: var(--text); max-width: 34em; }
+/* Textos de lectura en un solo color; el gris queda para datos chicos y aclaraciones */
 .muted { color: var(--text-soft); }
+p.muted:not(.small) { color: var(--text); }
 .small { font-size: var(--fs-small); }
 
 /* --- Botones ------------------------------------------------------------- */
@@ -231,8 +236,8 @@ html { scrollbar-color: #3a3236 var(--bg); }
 .card__title { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.2; margin-top: var(--s2); }
 .card:hover .card__title { text-decoration: underline; text-decoration-color: var(--accent-text); text-underline-offset: 0.18em; }
 .card__meta { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s4); font-size: var(--fs-small); color: var(--text-soft); }
-.card__desc { color: var(--text-soft); font-size: 0.9375rem; }
-.tag { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-text); }
+.card__desc { color: var(--text); font-size: 0.9375rem; }
+.tag { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-soft); }
 
 /* --- Formularios ------------------------------------------------------- */
 .field { display: flex; flex-direction: column; gap: var(--s2); }
@@ -271,7 +276,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .prose ul { padding-left: 1.2em; }
 .prose li + li { margin-top: var(--s2); }
 .prose strong { color: var(--text); }
-.prose p, .prose li { color: #d9d1cd; }
+.prose p, .prose li { color: var(--text); }
 
 /* --- Revelado suave al hacer scroll ------------------------------------ */
 @media (prefers-reduced-motion: no-preference) {
