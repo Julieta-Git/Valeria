@@ -20,6 +20,7 @@ interface Props {
   class?: string;
   sizes?: string;
   eager?: boolean; // true solo para la foto principal visible al cargar
+  posicion?: string; // qué parte de la foto queda visible al recortar, ej.: "50% 20%" (cara arriba)
 }
 
 const {
@@ -30,6 +31,7 @@ const {
   class: className = '',
   sizes = '(min-width: 60rem) 33vw, 50vw',
   eager = false,
+  posicion,
 } = Astro.props;
 const imagen = buscarFoto(src);
 ---
@@ -40,7 +42,7 @@ const imagen = buscarFoto(src);
     widths={[400, 700, 1000, 1400].filter((w) => w < imagen.width).concat(Math.min(imagen.width, 1600))}
     sizes={sizes}
     class={`foto ${className}`}
-    style={`aspect-ratio: ${ratio}`}
+    style={`aspect-ratio: ${ratio}${posicion ? `; object-position: ${posicion}` : ''}`}
     loading={eager ? 'eager' : 'lazy'}
     fetchpriority={eager ? 'high' : undefined}
   />
