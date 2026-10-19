@@ -41,7 +41,7 @@ npm run preview  # muestra /dist tal como quedaría publicada
 - **Logo:** hoy es un PNG (`src/assets/brand/logo-valeria.png`). Reemplazarlo por el SVG o PNG sin fondo cuando llegue.
 - **Fotos de la galería:** archivo en `src/assets/fotos/galeria/` y su nombre en `src/data/galeria.json` (`foto`, y `antes` si es antes/después). Una foto con `autorizada: false` no se publica aunque tenga archivo cargado.
 - **El Rincón de Luciérnaga:** el link está en `site.json` → `rincon.url`. Si se deja vacío, el sitio deja de mostrar el enlace.
-- **Dominio:** hoy la web se presenta como `valeria-salon-de-belleza.netlify.app`. Cuando haya dominio propio, cambiar `site` en `astro.config.mjs` y la línea `Sitemap:` de `public/robots.txt`.
+- **Dominio:** hoy la web está publicada en Vercel como `valeria-gules.vercel.app`. Cuando haya dominio propio, cambiar `site` en `astro.config.mjs` y la línea `Sitemap:` de `public/robots.txt`.
 
 ## Publicar
 
