@@ -24,7 +24,7 @@ const usadas = categoriasUsadas(items);
     {items.map((i) => (
       <div class:list={['gal__item', { 'gal__item--wide': i.tipo === 'antes-despues' }]} data-cat={i.categoria}>
         {i.tipo === 'antes-despues'
-          ? <BeforeAfter descripcion={i.descripcion} servicio={i.servicio} antes={i.antes} despues={i.foto} />
+          ? <BeforeAfter descripcion={i.descripcion} servicio={i.servicio} antes={i.claveAntes} despues={i.clave} />
           : <figure class="gal__fig"><Foto src={i.clave} label={i.descripcion} sizes="(min-width: 72rem) 25vw, (min-width: 48rem) 33vw, 50vw" /><figcaption class="small muted">{i.categoria}{i.servicio && <> · <a href={`/servicios/${i.servicio}`}>ver servicio</a></>}</figcaption></figure>}
       </div>
     ))}

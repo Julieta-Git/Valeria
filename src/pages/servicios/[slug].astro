@@ -111,7 +111,7 @@ const schema = [
           <a href="/galeria" class="link-arrow">Ver toda la galería</a>
         </div>
         <div class="works">
-          {ba && <div class="works__ba"><BeforeAfter descripcion={ba.descripcion} antes={ba.antes} despues={ba.foto} /></div>}
+          {ba && <div class="works__ba"><BeforeAfter descripcion={ba.descripcion} antes={ba.claveAntes} despues={ba.clave} /></div>}
           {fotos.map((f) => <Foto src={f.clave} label={f.descripcion} />)}
         </div>
       </div>

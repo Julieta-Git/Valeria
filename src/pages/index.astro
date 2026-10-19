@@ -87,7 +87,7 @@ const diferenciales = [
         <a href="/galeria" class="link-arrow">Ver galería completa</a>
       </div>
       <div class="results">
-        {antesDespues && <div class="results__ba reveal"><BeforeAfter descripcion={antesDespues.descripcion} servicio={antesDespues.servicio} antes={antesDespues.antes} despues={antesDespues.foto} /></div>}
+        {antesDespues && <div class="results__ba reveal"><BeforeAfter descripcion={antesDespues.descripcion} servicio={antesDespues.servicio} antes={antesDespues.claveAntes} despues={antesDespues.clave} /></div>}
         {fotos.map((f) => <Foto src={f.clave} label={f.descripcion} class="reveal" sizes="(min-width: 60rem) 25vw, 50vw" />)}
       </div>
     </div>

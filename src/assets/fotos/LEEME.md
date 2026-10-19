@@ -31,6 +31,7 @@ Poné adentro todas las fotos de trabajos de ese servicio, con cualquier nombre:
 - La que se llama `portada` (ej.: `servicios/balayage/portada.jpg`) es la foto principal de la ficha y de la tarjeta del servicio. Si no hay ninguna `portada`, se usa la primera por orden de nombre.
 - Las demás aparecen en "Trabajos realizados" de ese servicio, en la galería y en "Resultados reales" del inicio.
 - Mejor verticales (4:5), con el trabajo centrado.
+- **Antes y después:** en la misma carpeta del servicio, una foto llamada `antes` y otra `despues` (ej.: `servicios/alisado/antes.jpg` y `servicios/alisado/despues.jpg`). Para más de un par: `antes-2` + `despues-2`, `antes-3` + `despues-3`… Se muestran lado a lado en el servicio, en la galería y en "Resultados reales" del inicio. Si falta una de las dos, ese par no aparece.
 - **Solo fotos de clientas que dieron permiso.** Todo lo que está en estas carpetas se publica.
 
 ## galeria/
