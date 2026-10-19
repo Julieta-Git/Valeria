@@ -14,7 +14,7 @@ const year = new Date().getFullYear();
       <h2 class="site-footer__title">Contacto</h2>
       <p class="muted">{site.direccion}<br />{site.ciudad}, {site.provincia}</p>
       <WhatsAppButton label="WhatsApp" />
-      {site.mapsUrl ? <a href={site.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a> : <a href="/contacto">Cómo llegar</a>}
+      {site.mapsUrl && <a href={site.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a>}
     </div>
     <div class="stack">
       <h2 class="site-footer__title">Horarios</h2>

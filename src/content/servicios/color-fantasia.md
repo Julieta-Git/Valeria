@@ -2,13 +2,14 @@
 nombre: "Color fantasía"
 categoria: cabello
 resumen: "Tonos intensos y creativos: rosas, violetas, azules y más. La especialidad de Valeria."
-precioDesde: null
+duracion: "3 h como mínimo"
+duracionMin: 180
+precioDesde: 35000
 destacado: true
 orden: 1
 foto: "Color fantasía terminado, con buena luz"
 relacionados: ["color", "nutricion", "hidratacion"]
 consejos: ["hidratacion-o-nutricion", "lavado-diario"]
-pendiente: "Duración aproximada y precio desde."
 ---
 
 ## ¿En qué consiste?

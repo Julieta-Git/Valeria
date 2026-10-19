@@ -13,7 +13,10 @@ import site from '../data/site.json';
     <h2>Cancelaciones</h2>
     <p>Si no podés venir, avisá con la mayor anticipación posible para que otra persona pueda usar ese horario. <span class="pendiente">Completar: con cuántas horas de anticipación avisar.</span></p>
     <p>Las cancelaciones de último momento o las ausencias sin aviso pueden hacer que el salón no reserve nuevos turnos a esa persona.</p>
-    <p><span class="pendiente">Completar: tolerancia de llegada tarde.</span></p>
+    <p>{site.tolerancia}</p>
+
+    <h2>Turnos a domicilio</h2>
+    <p>{site.domicilio}</p>
 
     <h2>Precios</h2>
     <p>Los precios publicados son valores "desde" y pueden variar según el largo y el estado del cabello. Actualizados a {site.preciosActualizados}.</p>

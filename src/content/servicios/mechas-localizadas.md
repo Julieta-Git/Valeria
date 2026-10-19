@@ -4,18 +4,20 @@ categoria: cabello
 resumen: "Aclarado en zonas puntuales para enmarcar el rostro o dar contraste."
 duracion: "4 h aprox."
 duracionMin: 240
-precioDesde: 80000
+precioDesde: 60000
 destacado: false
 orden: 5
 foto: "Mechas localizadas terminadas"
 relacionados: ["reflejos", "nutricion"]
 consejos: []
-pendiente: "Confirmar precio desde ($80.000) y en qué consiste exactamente."
+pendiente: "En qué se diferencia de los reflejos y para quién lo recomienda."
 ---
 
 ## ¿En qué consiste?
 
-<span class="pendiente">Completar con Valeria: en qué consiste y en qué se diferencia de los reflejos.</span>
+Es una técnica de decoloración que se aplica en zonas elegidas del cabello con el fin de iluminarlo.
+
+<span class="pendiente">Completar con Valeria: en qué se diferencia de los reflejos.</span>
 
 ## ¿Para quién está recomendado?
 

@@ -16,6 +16,6 @@ Es el hábito que Valeria ve más seguido en sus clientas: **lavarse el cabello 
 - **El cabello queda más expuesto.** El lavado en exceso puede resecar la fibra capilar y dejar la cutícula abierta, con más frizz y menos brillo.
 - **El cuero cabelludo puede ponerse graso más rápido** cuando se lava de más.
 
-<span class="pendiente">Completar con Valeria: cada cuánto recomienda lavar según el tipo de cabello.</span>
+Valeria recomienda lavar el cabello **día de por medio**.
 
 Si tenés dudas o algún problema en el cuero cabelludo, consultá también con un profesional de la salud.

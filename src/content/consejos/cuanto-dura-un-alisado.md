@@ -7,7 +7,7 @@ servicios: ["alisado"]
 revisado: false
 ---
 
-Un alisado dura, en general, **entre 3 y 6 meses**.
+Un alisado dura **aproximadamente 6 meses**.
 
 La diferencia depende sobre todo de los cuidados en casa. Uno de los factores que más acorta su duración es **lavar el cabello todos los días**.
 

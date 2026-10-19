@@ -9,8 +9,7 @@ const v = site.valeria;
     <Foto src="valeria/retrato" label="Retrato de Valeria (ella tiene una foto)" alt="Valeria en su salón" ratio="4 / 5" sizes="(min-width: 60rem) 45vw, 100vw" eager />
     <div class="stack about__text">
       <h1>Sobre <span class="script">Valeria</span></h1>
-      <p><span class="pendiente">Título de presentación a confirmar con Valeria.</span></p>
-      <p class="lead"><span class="pendiente">Texto de presentación a confirmar con Valeria.</span></p>
+      {v.presentacion.map((p, i) => <p class={i === 0 ? 'lead' : undefined}>{p}</p>)}
       <dl class="facts">
         <div><dt class="muted small">Experiencia</dt><dd>{v.experiencia}</dd></div>
         <div><dt class="muted small">Formación</dt><dd>{v.titulo}</dd></div>

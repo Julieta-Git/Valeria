@@ -3,12 +3,12 @@
   "nombre": "Valeria Salón de Belleza",
   "nombreCorto": "Valeria",
   "eslogan": "Tu color, tu estilo",
-  "_esloganNota": "Propuesta: validar con Valeria.",
+  "_esloganNota": "Confirmado por Valeria (19/10/2026).",
   "descripcion": "Peluquera con 10 años de experiencia y colorista especializada en color fantasía. Corte, color, alisados, tratamientos, pestañas y belleza con atención personalizada en Formosa.",
   "ciudad": "Formosa",
   "provincia": "Formosa",
   "direccion": "Barrio Guadalupe",
-  "mapsUrl": "https://maps.app.goo.gl/dL2PmRYM3mURysfF7",
+  "mapsUrl": "",
   "mostrarPendientes": true,
   "whatsapp": {
     "numero": "5493704284507",
@@ -28,7 +28,7 @@
     "tarde": "desde las 14 h",
     "nota": "Domingos y fuera de horario: solo eventos especiales, con turno previo."
   },
-  "domicilio": "También se atiende a domicilio.",
+  "domicilio": "También se atiende a domicilio, según el servicio, con una seña de $20.000 que no se devuelve si se cancela el servicio.",
   "anticipacionMinimaHoras": 24,
   "mediosDePago": [
     "Efectivo",
@@ -41,12 +41,19 @@
   "valeria": {
     "experiencia": "10 años",
     "titulo": "Peluquera, colorista y lashista",
-    "especialidad": "Color fantasía y colorimetría"
+    "especialidad": "Color fantasía y colorimetría",
+    "presentacion": [
+      "Amo el color, amo los peinados para ese momento especial, pero lo que más me mueve son los cambios de look, esos desafíos que terminan en un «¡wow, soy yo!» frente al espejo.",
+      "Para mí, Valeria Salón de Belleza es mucho más que una peluquería: es un punto de encuentro. Con mis clientas creamos un vínculo hermoso, de confianza y de amistad. Acá venís a relajarte, a contarme todo y a irte renovada por fuera y por dentro.",
+      "Si buscás un lugar confiable, donde te escuchen de verdad y se animen a ese cambio que tanto querés, te estoy esperando."
+    ]
   },
   "rincon": {
     "nombre": "El Rincón de Luciérnaga",
     "descripcion": "Dentro del salón: anteojos, bijouterie, carteras, gorras y más accesorios.",
     "url": "https://el-rincon-de-luciernaga.netlify.app/",
     "_urlAyuda": "Link de la web del Rincón. Si se deja vacío, el sitio no muestra el enlace."
-  }
+  },
+  "_mapsUrlNota": "Valeria prefiere no mostrar la ubicación exacta: solo el barrio. Vacío = sin mapa ni botón 'Cómo llegar'.",
+  "tolerancia": "No hay tolerancia para llegadas tarde."
 }

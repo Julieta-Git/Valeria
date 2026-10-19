@@ -4,7 +4,7 @@ resumen: "Una de las preguntas que más recibe Valeria en el salón, con una res
 tema: "Corte"
 fecha: 2026-10-01
 servicios: ["corte"]
-revisado: false
+revisado: true
 ---
 
 La recomendación de Valeria es **cortar las puntas una vez por mes o, como máximo, cada dos meses**.
