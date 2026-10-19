@@ -4,7 +4,7 @@ categoria: cabello
 resumen: "Cabello más lacio, con menos frizz y más fácil de peinar."
 duracion: "2 h aprox."
 duracionMin: 120
-frecuencia: "Dura de 3 a 6 meses"
+frecuencia: "Dura aproximadamente 6 meses"
 precioDesde: 35000
 destacado: true
 orden: 7
