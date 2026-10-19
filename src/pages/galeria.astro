@@ -2,12 +2,12 @@
 import Base from '../layouts/Base.astro';
 import Foto from '../components/Foto.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
-import galeria from '../data/galeria.json';
+import { trabajosPublicables, categoriasUsadas } from '../lib/galeria';
 import site from '../data/site.json';
 
 // Una foto con persona sin autorización nunca se publica.
-const items = galeria.items.filter((i) => !i.foto || i.autorizada);
-const usadas = galeria.categorias.filter((c) => items.some((i) => i.categoria === c));
+const items = await trabajosPublicables();
+const usadas = categoriasUsadas(items);
 ---
 <Base title="Galería de trabajos" description={`Trabajos reales de ${site.nombre}: color fantasía, balayage, alisados, peinados, maquillaje, cejas y pestañas.`}>
   <section class="container head stack">
@@ -25,7 +25,7 @@ const usadas = galeria.categorias.filter((c) => items.some((i) => i.categoria ==
       <div class:list={['gal__item', { 'gal__item--wide': i.tipo === 'antes-despues' }]} data-cat={i.categoria}>
         {i.tipo === 'antes-despues'
           ? <BeforeAfter descripcion={i.descripcion} servicio={i.servicio} antes={i.antes} despues={i.foto} />
-          : <figure class="gal__fig"><Foto src={i.foto && `galeria/${i.foto}`} label={i.descripcion} sizes="(min-width: 72rem) 25vw, (min-width: 48rem) 33vw, 50vw" /><figcaption class="small muted">{i.categoria}{i.servicio && <> · <a href={`/servicios/${i.servicio}`}>ver servicio</a></>}</figcaption></figure>}
+          : <figure class="gal__fig"><Foto src={i.clave} label={i.descripcion} sizes="(min-width: 72rem) 25vw, (min-width: 48rem) 33vw, 50vw" /><figcaption class="small muted">{i.categoria}{i.servicio && <> · <a href={`/servicios/${i.servicio}`}>ver servicio</a></>}</figcaption></figure>}
       </div>
     ))}
   </section>

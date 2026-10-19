@@ -5,13 +5,13 @@ import ServiceCard from '../components/ServiceCard.astro';
 import Foto from '../components/Foto.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
 import site from '../data/site.json';
-import galeria from '../data/galeria.json';
+import { trabajosPublicables } from '../lib/galeria';
 import { enlaceReserva } from '../lib/whatsapp';
 
 const destacados = (await getCollection('servicios', (s) => s.data.destacado)).sort((a, b) => a.data.orden - b.data.orden);
 const consejos = (await getCollection('consejos')).sort((a, b) => +b.data.fecha - +a.data.fecha).slice(0, 3);
 // Una foto con persona sin autorización nunca se publica.
-const publicables = galeria.items.filter((g) => !g.foto || g.autorizada);
+const publicables = await trabajosPublicables();
 const fotos = publicables.filter((g) => g.tipo !== 'antes-despues').slice(0, 6);
 const antesDespues = publicables.find((g) => g.tipo === 'antes-despues');
 const instagram = site.redes.find((r) => r.nombre === 'Instagram');
@@ -88,7 +88,7 @@ const diferenciales = [
       </div>
       <div class="results">
         {antesDespues && <div class="results__ba reveal"><BeforeAfter descripcion={antesDespues.descripcion} servicio={antesDespues.servicio} antes={antesDespues.antes} despues={antesDespues.foto} /></div>}
-        {fotos.map((f) => <Foto src={f.foto && `galeria/${f.foto}`} label={f.descripcion} class="reveal" sizes="(min-width: 60rem) 25vw, 50vw" />)}
+        {fotos.map((f) => <Foto src={f.clave} label={f.descripcion} class="reveal" sizes="(min-width: 60rem) 25vw, 50vw" />)}
       </div>
     </div>
   </section>

@@ -4,7 +4,8 @@ import Base from '../../layouts/Base.astro';
 import Foto from '../../components/Foto.astro';
 import BeforeAfter from '../../components/BeforeAfter.astro';
 import site from '../../data/site.json';
-import galeria from '../../data/galeria.json';
+import { trabajosPublicables } from '../../lib/galeria';
+import { portadaServicio } from '../../lib/fotos';
 import { categorias, precio, precioDesde } from '../../lib/format';
 import { enlaceReserva } from '../../lib/whatsapp';
 
@@ -19,7 +20,9 @@ const { Content } = await render(servicio);
 
 const relacionados = (await Promise.all(d.relacionados.map((id) => getEntry('servicios', id)))).filter(Boolean);
 const consejos = (await Promise.all(d.consejos.map((id) => getEntry('consejos', id)))).filter(Boolean);
-const trabajos = galeria.items.filter((g) => g.servicio === servicio.id && (!g.foto || g.autorizada));
+const portada = portadaServicio(servicio.id);
+// La portada ya se ve arriba: no se repite en "Trabajos realizados".
+const trabajos = (await trabajosPublicables()).filter((g) => g.servicio === servicio.id && g.clave !== portada);
 const ba = trabajos.find((t) => t.tipo === 'antes-despues');
 const fotos = trabajos.filter((t) => t.tipo !== 'antes-despues');
 const url = new URL(`/servicios/${servicio.id}`, Astro.site).toString();
@@ -60,7 +63,7 @@ const schema = [
 
   <section class="container svc">
     <div class="svc__media">
-      <Foto src={`servicios/${servicio.id}`} label={d.foto} ratio="4 / 5" sizes="(min-width: 60rem) 45vw, 100vw" eager />
+      <Foto src={portada} label={d.foto} ratio="4 / 5" sizes="(min-width: 60rem) 45vw, 100vw" eager />
     </div>
     <div class="svc__info stack">
       <p class="tag">{categorias[d.categoria]}</p>
@@ -109,7 +112,7 @@ const schema = [
         </div>
         <div class="works">
           {ba && <div class="works__ba"><BeforeAfter descripcion={ba.descripcion} antes={ba.antes} despues={ba.foto} /></div>}
-          {fotos.map((f) => <Foto src={f.foto && `galeria/${f.foto}`} label={f.descripcion} />)}
+          {fotos.map((f) => <Foto src={f.clave} label={f.descripcion} />)}
         </div>
       </div>
     </section>
@@ -138,7 +141,7 @@ const schema = [
         <div class="grid grid--3">
           {relacionados.map((r) => r && (
             <a href={`/servicios/${r.id}`} class="rel">
-              <Foto src={`servicios/${r.id}`} label={r.data.nombre} alt="" ratio="1 / 1" class="rel__img" sizes="8rem" />
+              <Foto src={portadaServicio(r.id)} label={r.data.nombre} alt="" ratio="1 / 1" class="rel__img" sizes="8rem" />
               <span><span class="rel__name">{r.data.nombre}</span><span class="small muted">{precioDesde(r.data.precioDesde)}</span></span>
             </a>
           ))}

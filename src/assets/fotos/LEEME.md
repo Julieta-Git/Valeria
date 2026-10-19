@@ -25,13 +25,13 @@ Mientras una foto no esté, se ve el bloque gris "Foto pendiente".
 
 ## servicios/
 
-Una foto por servicio, vertical 4:5. El nombre es el del archivo del servicio en `src/content/servicios/`:
+Una carpeta por servicio (el nombre es el del archivo del servicio en `src/content/servicios/`).
+Poné adentro todas las fotos de trabajos de ese servicio, con cualquier nombre:
 
-`alisado`, `balayage`, `botox-capilar`, `color`, `color-fantasia`, `corte`, `extensiones-de-pestanas`,
-`hidratacion`, `lavado-brushing-planchado`, `maquillaje`, `mechas-localizadas`, `nutricion`, `peinados`,
-`perfilado-de-cejas`, `reflejos`, `shock-de-keratina`.
-
-Ejemplo: `servicios/balayage.jpg`.
+- La que se llama `portada` (ej.: `servicios/balayage/portada.jpg`) es la foto principal de la ficha y de la tarjeta del servicio. Si no hay ninguna `portada`, se usa la primera por orden de nombre.
+- Las demás aparecen en "Trabajos realizados" de ese servicio, en la galería y en "Resultados reales" del inicio.
+- Mejor verticales (4:5), con el trabajo centrado.
+- **Solo fotos de clientas que dieron permiso.** Todo lo que está en estas carpetas se publica.
 
 ## galeria/
 
